@@ -4,33 +4,43 @@ CONSIGNAS:
 
 Objetivos
 Desarrollar un sistema de gestión de biblioteca utilizando C# que abarque los siguientes conceptos:
+
 Vistos hasta ahora
+
 ● Variables enteras, decimales, strings, char y booleanas.
+
 ● Uso del camelCase para las variables.
+
 ● Lectura por consola de datos y realización del parseo.
+
 ● Estructuras de control (if, switch, for, while, do while).
+
 ● Creación y uso de funciones para modularización del código.
+
 Por verse
+
 ● Manejo de arreglos para almacenar y manipular datos.
+
 ● Implementación de algoritmos de ordenamiento.
+
 ● Tratamiento de cadenas.
+
 ● Eliminación, agregado y modificación de datos en arreglos.
+
 ● Implementación de matrices.
+
 ● Uso de listas para una colección dinámica de datos.
+
 📚 Descripción del Proyecto
-El sistema de gestión de biblioteca debe permitir administrar (como el ejemplo) la biblioteca con las
-siguientes funcionalidades:
-● Agregar Libros: Leer los datos del libro desde la consola (título, autor, año, género) y
-almacenar los datos en un arreglo de libros.
+
+El sistema de gestión de biblioteca debe permitir administrar (como el ejemplo) la biblioteca con las siguientes funcionalidades:
+● Agregar Libros: Leer los datos del libro desde la consola (título, autor, año, género) y almacenar los datos en un arreglo de libros. 
 ● Modificar Libros: Permitir la modificación de los datos de un libro específico.
 ● Eliminar Libros: Permitir la eliminación de un libro del arreglo.
 ● Listar Libros: Mostrar la lista de libros ordenados alfabéticamente por título.
 ● Buscar Libros: Permitir la búsqueda de libros por título o autor.
-● Manejo de Matrices: Implementar una matriz para manejar la disponibilidad de libros (ej.
-matriz de 7x24 para horas de la semana).
-
-● Listas Dinámicas: Utilizar listas para almacenar temporalmente las búsquedas o préstamos de
-libros.
+● Manejo de Matrices: Implementar una matriz para manejar la disponibilidad de libros (ej. matriz de 7x24 para horas de la semana).
+● Listas Dinámicas: Utilizar listas para almacenar temporalmente las búsquedas o préstamos de libros. 
 📋 Requisitos del Código
 ● Variables:
 ○ Utilizar variables enteras, decimales, strings, char y booleanas.
