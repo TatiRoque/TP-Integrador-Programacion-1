@@ -68,7 +68,7 @@ namespace TrabajoIntegrador
                     }
                     break;
                 case 3:
-                  
+                    Console.WriteLine("hola");
                     break;
                 case 4:
                     break;
