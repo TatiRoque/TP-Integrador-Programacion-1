@@ -1,5 +1,7 @@
 Trabajo Integrador Programación
+
 CONSIGNAS:
+
 Objetivos
 Desarrollar un sistema de gestión de biblioteca utilizando C# que abarque los siguientes conceptos:
 Vistos hasta ahora
