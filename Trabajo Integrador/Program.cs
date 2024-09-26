@@ -43,7 +43,48 @@ namespace TrabajoIntegrador
         }
         static void Escalas()
         {
+            Console.Clear();
             Console.WriteLine("Seleccione una opción");
+            Console.WriteLine("1. Mostrar las esclas mayores.");
+            Console.WriteLine("2. Mostrar las escalas menores.");
+            Console.WriteLine("3. Consultar por la escala mayor de una nota.");
+            Console.WriteLine("4. Consultar por la escala menor de una nota.");
+            Console.WriteLine("5. Volver al menú.");
+            int opcion = int.Parse(Console.ReadLine());
+            switch (opcion)
+            {
+                case 1:
+                    MostrarEscalasMayores();
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+                    Menu();
+                    break;
+            }
+        }
+        static void MostrarEscalasMayores()
+        {
+            Console.Clear();
+            Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+            string[,] EscalaMayor = { { "C", "D", "E", "F", "G","A","B", "C" },{"G", "A", "B", "C", "D", "E", "F#", "G"}, { "D", "E", "F#", "G", "A", "B", "C#","D" }, {"A", "B", "C#", "D", "E", "F#", "G#", "A" },{"E", "F#", "G#", "A", "B", "C#", "D#", "E"}, {"B", "C#", "D#", "E", "F#", "G#", "A#", "B"},{ "F#", "G#", "A#", "B", "C#", "D#","E#", "F#" } };
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Console.Write($"  \t{EscalaMayor[i, j]}\t ║ ");
+
+                }
+                Console.WriteLine();
+                Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
+            }
         }
         static void GuardarAcordes()
         {
@@ -53,7 +94,7 @@ namespace TrabajoIntegrador
             Console.WriteLine("2. Mostrar todas las canciones");
             Console.WriteLine("3. Buscar canciones");
             Console.WriteLine("4.Reemplazar acorde ");
-            Console.WriteLine("5. Salir");
+            Console.WriteLine("5. Volver al menú");
             int opcion = int.Parse(Console.ReadLine());
             switch (opcion)
             {
