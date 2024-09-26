@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization.Formatters;
 
 namespace TrabajoIntegrador
 {
@@ -6,8 +7,7 @@ namespace TrabajoIntegrador
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Bienvenido al");
-            Console.WriteLine("Programa de msúcica");
+
             Console.ReadKey();
             Menu();
 
@@ -16,7 +16,11 @@ namespace TrabajoIntegrador
         {
             Console.Clear();
             Console.WriteLine("Eliga la opción que quiera ejecutar");
-            Console.WriteLine("1. Teoría Musical. |2. Escalas.|3. Guardar mis canciones.");
+            Console.WriteLine("1. Teoría Musical.");
+            Console.WriteLine("2. Escalas.");
+            Console.WriteLine("3. Guardar mis canciones.");
+            Console.WriteLine("4. Salir.");
+
             int opcion = int.Parse(Console.ReadLine());
             switch (opcion)
             {
@@ -29,6 +33,8 @@ namespace TrabajoIntegrador
                 case 3:
                     GuardarAcordes();
                     break;
+                case 4:
+                    break;
             }
         }
         static void TeoriaMusical()
@@ -37,43 +43,53 @@ namespace TrabajoIntegrador
         }
         static void Escalas()
         {
-
+            Console.WriteLine("Seleccione una opción");
         }
         static void GuardarAcordes()
         {
             Console.Clear();
-            Console.Write("Seleccione una opción: ");
+            Console.WriteLine("Seleccione una opción: ");
             Console.WriteLine("1. Agregar canción");
-            Console.WriteLine("2. Buscar canciones");
-            Console.WriteLine("3. Reemplazar acorde");
-            Console.WriteLine("4. Salir");
+            Console.WriteLine("2. Mostrar todas las canciones");
+            Console.WriteLine("3. Buscar canciones");
+            Console.WriteLine("4.Reemplazar acorde ");
+            Console.WriteLine("5. Salir");
             int opcion = int.Parse(Console.ReadLine());
             switch (opcion)
             {
                 case 1:
-                    Console.WriteLine();
+                    //cuando veamos listas
+                    Console.WriteLine("Ingrese el nombre de su canción");
                     string NombreCancion = Console.ReadLine();
-                    Console.WriteLine();
+                    Console.WriteLine("Ingrese la cantidad de acordes que tendra su cancion");
                     int CantAcordes = int.Parse(Console.ReadLine());
-                    string[] Cancion = new string[CantAcordes + 1];
-                    Cancion[0] = NombreCancion;
+
+                    string[,] Cancion = new string[CantAcordes + 1, CantAcordes + 1];
+                    Cancion[0, 0] = NombreCancion;
+                    for (int i = 0; i < Cancion.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < Cancion.GetLength(1); j++)
+                        {
+                            Cancion[i, j] = Console.ReadLine();
+                        }
+                    }
 
                     break;
                 case 2:
                     Console.WriteLine("Ingrese el nombre de la canción que quiere encontrar.");
-                    string BuscarCancion = Console.ReadLine().ToLower();
-                    if(String.Compare())
-                    {
-
-                    }
                     break;
                 case 3:
-                    Console.WriteLine("hola");
+                    Console.WriteLine("Ingrese el nombre de la canción que quiere encontrar.");
+                    string BuscarCancion = Console.ReadLine().ToLower();
                     break;
                 case 4:
+                    Console.WriteLine("Ingrese el nombre de la cancion a modificar acordes");
                     break;
-            }
+                case 5:
+                    Menu();
+                    break;
 
+            }
         }
     }
 }
