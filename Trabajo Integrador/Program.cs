@@ -7,11 +7,73 @@ namespace TrabajoIntegrador
     {
         static void Main(string[] args)
         {
-
+            EstablecerColores();
+            CentrarYMostrarMensaje();
+            RestaurarColores();
             Console.ReadKey();
             Menu();
-
         }
+        static void EstablecerColores()
+        {
+            Console.BackgroundColor = ConsoleColor.DarkRed;  // Fondo rojo (puedes cambiar el color)
+            Console.ForegroundColor = ConsoleColor.Yellow;    // Texto amarillo
+            Console.Clear();
+        }
+        static void CentrarYMostrarMensaje()
+        {
+            // Obtener el tamaño de la consola para centrar el mensaje y el borde
+            int anchoConsola = Console.WindowWidth;
+            int altoConsola = Console.WindowHeight;
+
+            // Dimensiones del recuadro
+            int anchoRecuadro = 50;
+            int altoRecuadro = 10;
+
+            // Calcular las posiciones centrales
+            int posicionX = (anchoConsola - anchoRecuadro) / 2;
+            int posicionY = (altoConsola - altoRecuadro) / 2;
+
+            // Dibujar el borde centrado
+            DibujarBorde(anchoRecuadro, altoRecuadro, posicionX, posicionY);
+
+            // Posicionar el mensaje de bienvenida centrado dentro del borde
+            Console.SetCursorPosition(posicionX + 12, posicionY + 5);
+            Console.WriteLine(" Bienvenido al Programa de Música ");
+        }
+        static void DibujarBorde(int ancho, int alto, int posX, int posY)
+        {
+            // Dibuja el borde superior
+            Console.SetCursorPosition(posX, posY);
+            Console.Write("╔");
+            for (int i = 0; i < ancho - 2; i++)
+            {
+                Console.Write("═");
+            }
+            Console.Write("╗");
+
+            // Dibuja los lados
+            for (int i = 1; i < alto - 1; i++)
+            {
+                Console.SetCursorPosition(posX, posY + i);
+                Console.Write("║");
+                Console.SetCursorPosition(posX + ancho - 1, posY + i);
+                Console.Write("║");
+            }
+
+            // Dibuja el borde inferior
+            Console.SetCursorPosition(posX, posY + alto - 1);
+            Console.Write("╚");
+            for (int i = 0; i < ancho - 2; i++)
+            {
+                Console.Write("═");
+            }
+            Console.Write("╝");
+        }
+        static void RestaurarColores()
+        {
+            Console.ResetColor();
+        }
+
         static void Menu()
         {
             Console.Clear();
@@ -57,13 +119,13 @@ namespace TrabajoIntegrador
                     MostrarEscalasMayores();
                     break;
                 case 2:
-
+                    MostrarEscalasMenores();
                     break;
                 case 3:
-
+                    ConsultaEscalaMayor();
                     break;
                 case 4:
-
+                    ConsultaEscalaMenor();
                     break;
                 case 5:
                     Menu();
@@ -74,7 +136,7 @@ namespace TrabajoIntegrador
         {
             Console.Clear();
             Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
-            string[,] EscalaMayor = { { "C", "D", "E", "F", "G","A","B", "C" },{"G", "A", "B", "C", "D", "E", "F#", "G"}, { "D", "E", "F#", "G", "A", "B", "C#","D" }, {"A", "B", "C#", "D", "E", "F#", "G#", "A" },{"E", "F#", "G#", "A", "B", "C#", "D#", "E"}, {"B", "C#", "D#", "E", "F#", "G#", "A#", "B"},{ "F#", "G#", "A#", "B", "C#", "D#","E#", "F#" } };
+            string[,] EscalaMayor = { { "C", "D", "E", "F", "G", "A", "B", "C" }, { "G", "A", "B", "C", "D", "E", "F#", "G" }, { "D", "E", "F#", "G", "A", "B", "C#", "D" }, { "A", "B", "C#", "D", "E", "F#", "G#", "A" }, { "E", "F#", "G#", "A", "B", "C#", "D#", "E" }, { "B", "C#", "D#", "E", "F#", "G#", "A#", "B" }, { "F#", "G#", "A#", "B", "C#", "D#", "E#", "F#" } };
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -85,6 +147,155 @@ namespace TrabajoIntegrador
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
             }
+            MenuEscalas();
+        }
+        static void MostrarEscalasMenores()
+        {
+            Console.Clear();
+            Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+            string[,] EscalaMenor = { { "C", "D", "Eb", "F", "G", "Ab", "Bb", "C" }, { "D", "E", "F", "G", "A", "Bb", "C", "D" }, { "E", "F#", "G", "A", "B", "C", "D", "E" }, { "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F" }, { "G", "A", "B", "C", "D", "E", "F#", "G" }, { "A", "Bb", "C", "D", "Eb", "F", "G", "A" }, { "B", "C#", "D", "E", "F#", "G#", "A", "B" } };
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Console.Write($"  \t{EscalaMenor[i, j]}\t ║ ");
+
+                }
+                Console.WriteLine();
+                Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
+            }
+            MenuEscalas();
+        }
+        static void ConsultaEscalaMayor()
+        {
+            Console.Clear();
+            Console.WriteLine("Ingrese una nota para saber su escala mayor (A, B, C, D, E, F, G): ");
+            string nota = Console.ReadLine().ToUpper();  
+            if (!NotaValida(nota))
+            {
+                Console.WriteLine("Nota inválida. Por favor ingrese una nota válida.");
+                return;
+            }
+
+            string[] escalaMayor = ObtenerEscalaMayor(nota);
+            Console.Clear();
+            Console.WriteLine($"La escala mayor de {nota} es: ");
+            Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+            Console.Write("║");
+            for (int i = 0; i < 8; i++)
+            {
+                Console.Write($"  \t{escalaMayor[i]}\t ║ ");
+
+            }
+            Console.WriteLine();
+            Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
+            MenuEscalas();
+        }
+        static bool NotaValida(string nota)
+        {
+            string[] notasValidas = { "A", "B", "C", "D", "E", "F", "G" };
+            return Array.Exists(notasValidas, n => n == nota);
+        }
+        static string[] ObtenerEscalaMayor(string notaBase)
+        {
+            string[] escalaCromatica = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+
+            int indiceNotaBase = Array.IndexOf(escalaCromatica, notaBase);
+
+            // Tono, Tono, Semitono, Tono, Tono, Tono, Semitono
+            int[] intervalos = { 2, 2, 1, 2, 2, 2, 1 };
+
+            string[] escalaMayor = new string[8];
+
+            // La primera posición del array escalaMayor será siempre la nota base ingresada por el usuario.
+            escalaMayor[0] = notaBase;
+
+            // Calcular las demás notas de la escala mayor
+            int indiceActual = indiceNotaBase;
+            for (int i = 0; i < intervalos.Length; i++)
+            {
+                // Si el índice calculado es 12, entonces 12 % 12 = 0 (volver a la primera nota, C).
+                //Si el índice calculado es 13, entonces 13 % 12 = 1(volvemos a la segunda nota, C#).
+                indiceActual = (indiceActual + intervalos[i]) % escalaCromatica.Length;
+                escalaMayor[i + 1] = escalaCromatica[indiceActual];
+            }
+
+            return escalaMayor;
+        }
+        static void ConsultaEscalaMenor()
+        {
+            Console.Clear();
+            Console.WriteLine("Ingrese una nota para saber su escala menor (A, B, C, D, E, F, G): ");
+            string nota = Console.ReadLine().ToUpper();
+            if (!EsNotaValida(nota))
+            {
+                Console.WriteLine("Nota inválida. Por favor ingrese una nota válida.");
+                return;
+            }
+
+            string[] escalaMenor = ObtenerEscalaMenor(nota);
+            Console.Clear();
+            Console.WriteLine($"La escala mayor de {nota} es: ");
+            Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+            Console.Write("║");
+            for (int i = 0; i < 8; i++)
+            {
+                Console.Write($"  \t{escalaMenor[i]}\t ║ ");
+
+            }
+            Console.WriteLine();
+            Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
+            MenuEscalas();
+        }
+        static bool EsNotaValida(string nota)
+        {
+            string[] notasValidas = { "A", "B", "C", "D", "E", "F", "G" };
+            return Array.Exists(notasValidas, n => n == nota);
+        }
+        static string[] ObtenerEscalaMenor(string notaBase)
+        {
+            string[] escalaCromatica = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+
+            int indiceNotaBase = Array.IndexOf(escalaCromatica, notaBase);
+
+            // Tono - Semitono - Tono - Tono - Semitono - Tono - Tono
+            int[] intervalos = { 2, 1, 2, 2, 1, 2, 2 };
+
+            string[] escalaMenor = new string[8];
+
+            // La primera posición del array escalaMayor será siempre la nota base ingresada por el usuario.
+            escalaMenor[0] = notaBase;
+
+            // Calcular las demás notas de la escala mayor
+            int indiceActual = indiceNotaBase;
+            for (int i = 0; i < intervalos.Length; i++)
+            {
+                // Si el índice calculado es 12, entonces 12 % 12 = 0 (volver a la primera nota, C).
+                //Si el índice calculado es 13, entonces 13 % 12 = 1(volvemos a la segunda nota, C#).
+                indiceActual = (indiceActual + intervalos[i]) % escalaCromatica.Length;
+                escalaMenor[i + 1] = escalaCromatica[indiceActual];
+            }
+
+            return escalaMenor;
+        }
+        static void MenuEscalas()
+        {
+            Console.WriteLine("Seleccione una opción");
+            Console.WriteLine("1. Volver al menú de escalas.");
+            Console.WriteLine("2. Volver al menú principal.");
+            Console.WriteLine("3. Salir del programa.");
+            int opcion = int.Parse(Console.ReadLine());
+            switch (opcion)
+            {
+                case 1:
+                    Escalas();
+                    break;
+                case 2:
+                    Menu();
+                    break;
+                case 3:
+                    break;
+            }
         }
         static void GuardarAcordes()
         {
@@ -93,7 +304,7 @@ namespace TrabajoIntegrador
             Console.WriteLine("1. Agregar canción");
             Console.WriteLine("2. Mostrar todas las canciones");
             Console.WriteLine("3. Buscar canciones");
-            Console.WriteLine("4.Reemplazar acorde ");
+            Console.WriteLine("4. Reemplazar acorde ");
             Console.WriteLine("5. Volver al menú");
             int opcion = int.Parse(Console.ReadLine());
             switch (opcion)
@@ -117,7 +328,7 @@ namespace TrabajoIntegrador
 
                     break;
                 case 2:
-                    Console.WriteLine("Ingrese el nombre de la canción que quiere encontrar.");
+                    Console.WriteLine("");
                     break;
                 case 3:
                     Console.WriteLine("Ingrese el nombre de la canción que quiere encontrar.");
