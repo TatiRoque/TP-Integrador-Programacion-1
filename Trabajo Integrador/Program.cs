@@ -101,7 +101,7 @@ namespace TrabajoIntegrador
         }
         static void TeoriaMusical()
         {
-
+            
         }
         static void Escalas()
         {
