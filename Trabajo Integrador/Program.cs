@@ -142,10 +142,12 @@ namespace TrabajoIntegrador
         static void MostrarEscalasMayores(string nombre)
         {
             Console.Clear();
-            Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+
             string[,] EscalaMayor = { { "C", "D", "E", "F", "G", "A", "B", "C" }, { "G", "A", "B", "C", "D", "E", "F#", "G" }, { "D", "E", "F#", "G", "A", "B", "C#", "D" }, { "A", "B", "C#", "D", "E", "F#", "G#", "A" }, { "E", "F#", "G#", "A", "B", "C#", "D#", "E" }, { "B", "C#", "D#", "E", "F#", "G#", "A#", "B" }, { "F#", "G#", "A#", "B", "C#", "D#", "E#", "F#" } };
             for (int i = 0; i < 7; i++)
             {
+                Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+                Console.Write("║");
                 for (int j = 0; j < 8; j++)
                 {
                     Console.Write($"  \t{EscalaMayor[i, j]}\t ║ ");
@@ -159,10 +161,11 @@ namespace TrabajoIntegrador
         static void MostrarEscalasMenores(string nombre)
         {
             Console.Clear();
-            Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
             string[,] EscalaMenor = { { "C", "D", "Eb", "F", "G", "Ab", "Bb", "C" }, { "D", "E", "F", "G", "A", "Bb", "C", "D" }, { "E", "F#", "G", "A", "B", "C", "D", "E" }, { "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F" }, { "G", "A", "B", "C", "D", "E", "F#", "G" }, { "A", "Bb", "C", "D", "Eb", "F", "G", "A" }, { "B", "C#", "D", "E", "F#", "G#", "A", "B" } };
             for (int i = 0; i < 7; i++)
             {
+                Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+                Console.Write("║");
                 for (int j = 0; j < 8; j++)
                 {
                     Console.Write($"  \t{EscalaMenor[i, j]}\t ║ ");
