@@ -238,12 +238,31 @@ namespace TrabajoIntegrador
             Console.Clear();
             Console.WriteLine("Ingrese una nota para saber su escala menor (A, B, C, D, E, F, G): ");
             string nota = Console.ReadLine().ToUpper();
+            string eEscalaMenor ="E";
+            string bEscalaMenor ="B";
+            if (nota == eEscalaMenor || nota == bEscalaMenor)
+            {
+                string[] escalaMenor = EscalaMenorEyB(nota);
+                Console.Clear();
+                Console.WriteLine($"La escala menor de {nota} es: ");
+                Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+                Console.Write("║");
+                for (int i = 0; i < 8; i++)
+                {
+                    Console.Write($"  \t{escalaMenor[i]}\t ║ ");
+
+                }
+                Console.WriteLine();
+                Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
+                MenuEscalas(nombre);
+            }
             if (!EsNotaValida(nota))
             {
                 Console.WriteLine("Nota inválida. Por favor ingrese una nota válida.");
                 return;
             }
-
+            else 
+            {
             string[] escalaMenor = ObtenerEscalaMenor(nota);
             Console.Clear();
             Console.WriteLine($"La escala menor de {nota} es: ");
@@ -257,15 +276,41 @@ namespace TrabajoIntegrador
             Console.WriteLine();
             Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
             MenuEscalas(nombre);
+            }
         }
         static bool EsNotaValida(string nota)
         {
             string[] notasValidas = { "A", "B", "C", "D", "E", "F", "G" };
             return Array.Exists(notasValidas, n => n == nota);
         }
-        static string[] ObtenerEscalaMenor(string notaBase)
+        static string[] EscalaMenorEyB(string notaBase)
         {
             string[] escalaCromatica = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+
+            int indiceNotaBase = Array.IndexOf(escalaCromatica, notaBase);
+
+            // Tono, Tono, Semitono, Tono, Tono, Tono, Semitono
+            int[] intervalos = { 2, 1, 2, 2, 1, 2, 2 };
+
+            string[] escalaMenor = new string[8];
+
+            // La primera posición del array escalaMayor será siempre la nota base ingresada por el usuario.
+            escalaMenor[0] = notaBase;
+
+            // Calcular las demás notas de la escala mayor
+            int indiceActual = indiceNotaBase;
+            for (int i = 0; i < intervalos.Length; i++)
+            {
+                // Si el índice calculado es 12, entonces 12 % 12 = 0 (volver a la primera nota, C).
+                //Si el índice calculado es 13, entonces 13 % 12 = 1(volvemos a la segunda nota, C#).
+                indiceActual = (indiceActual + intervalos[i]) % escalaCromatica.Length;
+                escalaMenor[i + 1] = escalaCromatica[indiceActual];
+            }
+            return escalaMenor;
+        }
+        static string[] ObtenerEscalaMenor(string notaBase)
+        {
+            string[] escalaCromatica = { "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" };
 
             int indiceNotaBase = Array.IndexOf(escalaCromatica, notaBase);
 
@@ -289,6 +334,7 @@ namespace TrabajoIntegrador
 
             return escalaMenor;
         }
+
         static void MenuEscalas(string nombre)
         {
             Console.WriteLine($"{nombre}, selecciona una opción");
