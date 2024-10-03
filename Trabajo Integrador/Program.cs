@@ -11,13 +11,13 @@ namespace TrabajoIntegrador
             CentrarYMostrarMensaje();
             RestaurarColores();
             Console.ReadKey();
-            Menu();
+            string nombre = ConsultarNombre();
+            Menu(nombre);
         }
         static void EstablecerColores()
         {
             Console.BackgroundColor = ConsoleColor.DarkRed;  // Fondo rojo (puedes cambiar el color)
             Console.ForegroundColor = ConsoleColor.Yellow;    // Texto amarillo
-            Console.Clear();
         }
         static void CentrarYMostrarMensaje()
         {
@@ -73,10 +73,17 @@ namespace TrabajoIntegrador
         {
             Console.ResetColor();
         }
-
-        static void Menu()
+        static string ConsultarNombre()
         {
             Console.Clear();
+            Console.WriteLine("¿Cómo es tu nombre?");
+            string nombre = Console.ReadLine();
+            return nombre;
+        }
+        static void Menu(string nombre)
+        {
+            Console.Clear();
+            Console.WriteLine($"Bienvenido al menú {nombre}");
             Console.WriteLine("Eliga la opción que quiera ejecutar");
             Console.WriteLine("1. Teoría Musical.");
             Console.WriteLine("2. Escalas.");
@@ -90,10 +97,10 @@ namespace TrabajoIntegrador
                     TeoriaMusical();
                     break;
                 case 2:
-                    Escalas();
+                    Escalas(nombre);
                     break;
                 case 3:
-                    GuardarAcordes();
+                    GuardarAcordes(nombre);
                     break;
                 case 4:
                     break;
@@ -103,10 +110,10 @@ namespace TrabajoIntegrador
         {
 
         }
-        static void Escalas()
+        static void Escalas(string nombre)
         {
             Console.Clear();
-            Console.WriteLine("Seleccione una opción");
+            Console.WriteLine($"Por favor eliga una opcion {nombre}");
             Console.WriteLine("1. Mostrar las esclas mayores.");
             Console.WriteLine("2. Mostrar las escalas menores.");
             Console.WriteLine("3. Consultar por la escala mayor de una nota.");
@@ -116,29 +123,31 @@ namespace TrabajoIntegrador
             switch (opcion)
             {
                 case 1:
-                    MostrarEscalasMayores();
+                    MostrarEscalasMayores(nombre);
                     break;
                 case 2:
-                    MostrarEscalasMenores();
+                    MostrarEscalasMenores(nombre);
                     break;
                 case 3:
-                    ConsultaEscalaMayor();
+                    ConsultaEscalaMayor(nombre);
                     break;
                 case 4:
-                    ConsultaEscalaMenor();
+                    ConsultaEscalaMenor(nombre);
                     break;
                 case 5:
-                    Menu();
+                    Menu(nombre);
                     break;
             }
         }
-        static void MostrarEscalasMayores()
+        static void MostrarEscalasMayores(string nombre)
         {
             Console.Clear();
-            Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+
             string[,] EscalaMayor = { { "C", "D", "E", "F", "G", "A", "B", "C" }, { "G", "A", "B", "C", "D", "E", "F#", "G" }, { "D", "E", "F#", "G", "A", "B", "C#", "D" }, { "A", "B", "C#", "D", "E", "F#", "G#", "A" }, { "E", "F#", "G#", "A", "B", "C#", "D#", "E" }, { "B", "C#", "D#", "E", "F#", "G#", "A#", "B" }, { "F#", "G#", "A#", "B", "C#", "D#", "E#", "F#" } };
             for (int i = 0; i < 7; i++)
             {
+                Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+                Console.Write("║");
                 for (int j = 0; j < 8; j++)
                 {
                     Console.Write($"  \t{EscalaMayor[i, j]}\t ║ ");
@@ -147,15 +156,16 @@ namespace TrabajoIntegrador
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
             }
-            MenuEscalas();
+            MenuEscalas(nombre);
         }
-        static void MostrarEscalasMenores()
+        static void MostrarEscalasMenores(string nombre)
         {
             Console.Clear();
-            Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
             string[,] EscalaMenor = { { "C", "D", "Eb", "F", "G", "Ab", "Bb", "C" }, { "D", "E", "F", "G", "A", "Bb", "C", "D" }, { "E", "F#", "G", "A", "B", "C", "D", "E" }, { "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F" }, { "G", "A", "B", "C", "D", "E", "F#", "G" }, { "A", "Bb", "C", "D", "Eb", "F", "G", "A" }, { "B", "C#", "D", "E", "F#", "G#", "A", "B" } };
             for (int i = 0; i < 7; i++)
             {
+                Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
+                Console.Write("║");
                 for (int j = 0; j < 8; j++)
                 {
                     Console.Write($"  \t{EscalaMenor[i, j]}\t ║ ");
@@ -164,13 +174,13 @@ namespace TrabajoIntegrador
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
             }
-            MenuEscalas();
+            MenuEscalas(nombre);
         }
-        static void ConsultaEscalaMayor()
+        static void ConsultaEscalaMayor(string nombre)
         {
             Console.Clear();
             Console.WriteLine("Ingrese una nota para saber su escala mayor (A, B, C, D, E, F, G): ");
-            string nota = Console.ReadLine().ToUpper();  
+            string nota = Console.ReadLine().ToUpper();
             if (!NotaValida(nota))
             {
                 Console.WriteLine("Nota inválida. Por favor ingrese una nota válida.");
@@ -189,8 +199,9 @@ namespace TrabajoIntegrador
             }
             Console.WriteLine();
             Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
-            MenuEscalas();
+            MenuEscalas(nombre);
         }
+        //verificar esto 
         static bool NotaValida(string nota)
         {
             string[] notasValidas = { "A", "B", "C", "D", "E", "F", "G" };
@@ -222,7 +233,7 @@ namespace TrabajoIntegrador
 
             return escalaMayor;
         }
-        static void ConsultaEscalaMenor()
+        static void ConsultaEscalaMenor(string nombre)
         {
             Console.Clear();
             Console.WriteLine("Ingrese una nota para saber su escala menor (A, B, C, D, E, F, G): ");
@@ -235,7 +246,7 @@ namespace TrabajoIntegrador
 
             string[] escalaMenor = ObtenerEscalaMenor(nota);
             Console.Clear();
-            Console.WriteLine($"La escala mayor de {nota} es: ");
+            Console.WriteLine($"La escala menor de {nota} es: ");
             Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
             Console.Write("║");
             for (int i = 0; i < 8; i++)
@@ -245,7 +256,7 @@ namespace TrabajoIntegrador
             }
             Console.WriteLine();
             Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
-            MenuEscalas();
+            MenuEscalas(nombre);
         }
         static bool EsNotaValida(string nota)
         {
@@ -278,9 +289,9 @@ namespace TrabajoIntegrador
 
             return escalaMenor;
         }
-        static void MenuEscalas()
+        static void MenuEscalas(string nombre)
         {
-            Console.WriteLine("Seleccione una opción");
+            Console.WriteLine($"{nombre}, selecciona una opción");
             Console.WriteLine("1. Volver al menú de escalas.");
             Console.WriteLine("2. Volver al menú principal.");
             Console.WriteLine("3. Salir del programa.");
@@ -288,16 +299,17 @@ namespace TrabajoIntegrador
             switch (opcion)
             {
                 case 1:
-                    Escalas();
+                    Escalas(nombre);
                     break;
                 case 2:
-                    Menu();
+                    Menu(nombre);
                     break;
                 case 3:
                     break;
             }
         }
-        static void GuardarAcordes()
+        //modularizar todo lo de abajo
+        static void GuardarAcordes(string nombre)
         {
             Console.Clear();
             Console.WriteLine("Seleccione una opción: ");
@@ -338,10 +350,14 @@ namespace TrabajoIntegrador
                     Console.WriteLine("Ingrese el nombre de la cancion a modificar acordes");
                     break;
                 case 5:
-                    Menu();
+                    Menu(nombre);
                     break;
 
             }
+        }
+        static void MenuAcordes()
+        {
+
         }
     }
 }
