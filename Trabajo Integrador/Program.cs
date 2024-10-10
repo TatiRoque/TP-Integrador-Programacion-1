@@ -21,28 +21,22 @@ namespace TrabajoIntegrador
         }
         static void CentrarYMostrarMensaje()
         {
-            // Obtener el tamaño de la consola para centrar el mensaje y el borde
             int anchoConsola = Console.WindowWidth;
             int altoConsola = Console.WindowHeight;
 
-            // Dimensiones del recuadro
             int anchoRecuadro = 50;
             int altoRecuadro = 10;
 
-            // Calcular las posiciones centrales
             int posicionX = (anchoConsola - anchoRecuadro) / 2;
             int posicionY = (altoConsola - altoRecuadro) / 2;
 
-            // Dibujar el borde centrado
             DibujarBorde(anchoRecuadro, altoRecuadro, posicionX, posicionY);
 
-            // Posicionar el mensaje de bienvenida centrado dentro del borde
             Console.SetCursorPosition(posicionX + 12, posicionY + 5);
             Console.WriteLine(" Bienvenido al Programa de Música ");
         }
         static void DibujarBorde(int ancho, int alto, int posX, int posY)
         {
-            // Dibuja el borde superior
             Console.SetCursorPosition(posX, posY);
             Console.Write("╔");
             for (int i = 0; i < ancho - 2; i++)
@@ -51,7 +45,6 @@ namespace TrabajoIntegrador
             }
             Console.Write("╗");
 
-            // Dibuja los lados
             for (int i = 1; i < alto - 1; i++)
             {
                 Console.SetCursorPosition(posX, posY + i);
@@ -60,7 +53,6 @@ namespace TrabajoIntegrador
                 Console.Write("║");
             }
 
-            // Dibuja el borde inferior
             Console.SetCursorPosition(posX, posY + alto - 1);
             Console.Write("╚");
             for (int i = 0; i < ancho - 2; i++)
@@ -239,7 +231,7 @@ namespace TrabajoIntegrador
             Console.WriteLine("Ingrese una nota para saber su escala menor (A, B, C, D, E, F, G): ");
             string nota = Console.ReadLine().ToUpper();
             string eEscalaMenor ="E";
-            string bEscalaMenor ="B";
+            string bEscalaMenor = "B";
             if (nota == eEscalaMenor || nota == bEscalaMenor)
             {
                 string[] escalaMenor = EscalaMenorEyB(nota);
