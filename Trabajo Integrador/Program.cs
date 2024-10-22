@@ -107,14 +107,25 @@ namespace TrabajoIntegrador
                     break;
             }
         }
+
+        static int calificacionExamen1 = -1; // -1 indica q el examen no fue realizado aun
+        static int calificacionExamen2 = -1;
+        static int calificacionExamen3 = -1;
         static void TeoriaMusical()
         {
             Console.Clear();
 
+            Console.Clear();
             Console.WriteLine("Bienvenido al curso básico de teoría musical. Este consta de 3 módulos de aprendizaje y sus correspondientes exámenes orientados a comprobar el entendimiento de los contenidos dados. \n\nAcceda a los módulos escribiendo el número indicado.\n");
             Console.WriteLine("1 – Modulo I: ¿Que sería la música? \n\n2 – Modulo II: Notas y acordes \n\n3 – Modulo III: no sé todavía\n ");
             Console.WriteLine("De la misma forma puede acceder a los exámenes, que se desbloquearan progresivamente.\n");
-            Console.WriteLine("4 – Examen Módulo I \n\n5 - Examen Módulo II \n\n6 - Examen Módulo 6 \n\n\n\n\n\n7 - Volver al menú \n ");
+            Console.WriteLine("4 – Examen Módulo I \n\n5 - Examen Módulo II \n\n6 - Examen Módulo III \n\n");
+
+            Console.WriteLine($"Calificación examen 1: {(calificacionExamen1 == -1 ? "no realizado" : calificacionExamen1.ToString())}");
+            Console.WriteLine($"Calificación examen 2: {(calificacionExamen2 == -1 ? "no realizado" : calificacionExamen2.ToString())}");
+            Console.WriteLine($"Calificación examen 3: {(calificacionExamen3 == -1 ? "no realizado" : calificacionExamen3.ToString())}");
+
+            Console.WriteLine("\n\n7 - Volver al menú \n ");
 
             int opcion = int.Parse(Console.ReadLine());
             bool opcionTMelegida = false;
@@ -263,97 +274,154 @@ namespace TrabajoIntegrador
             }
         }
 
-
-        class Pregunta
-        {
-            public string Texto { get; set; }
-            public bool RespuestaCorrecta { get; set; }
-
-            public Pregunta(string texto, bool respuestaCorrecta)
-            {
-                Texto = texto;
-                RespuestaCorrecta = respuestaCorrecta;
-            }
-        }
-
         static void examenTM1()
         {
-            List<Pregunta> preguntas = new List<Pregunta>
+            Console.Clear(); 
+            int correctas = 0;
+
+            string[] preguntas = 
             {
-                 new Pregunta("La música es un arte que organiza sonidos y silencios en el tiempo. (V/F)", true),
-                 new Pregunta("Un acorde está compuesto por una sola nota. (V/F)", false),
-                 new Pregunta("El ritmo es una de las bases de la música. (V/F)", true),
-                 new Pregunta("La melodía es el componente rítmico de la música. (V/F)", false),
-                 new Pregunta("Un compás está formado por varias medidas. (V/F)", false)
+                "1. Aristóteles definió la música como un arte imitativo de la realidad. (V/F)",
+                "2. La música ha sido utilizada únicamente como entretenimiento. (V/F)",
+                "3. Los compositores son responsables de dar forma a las ideas musicales. (V/F)",
+                "4. La interpretación musical no requiere de habilidades técnicas. (V/F)",
+                "5. Los instrumentos musicales no han evolucionado con el tiempo. (V/F)"
             };
 
-            int puntuacion = 0;
-
-            foreach (var pregunta in preguntas)
+            for (int i = 0; i < preguntas.Length; i++)
             {
-                bool respuestaValida = false;
-                bool respuestaUsuario = false;
+                Console.Clear(); 
+                Console.WriteLine(preguntas[i]);
+                string respuesta;
 
-                while (!respuestaValida)
+                // validar respuesta
+                while (true)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Examen Módulo I: Verdadero o Falso");
-                    Console.WriteLine("-----------------------------------\n");
-                    Console.WriteLine(pregunta.Texto);
-                    Console.Write("Respuesta (V/F): ");
-
-                    var tecla = Console.ReadKey(true).Key;
-
-                    switch (tecla)
+                    respuesta = Console.ReadLine().ToUpper();
+                    if (respuesta == "V" || respuesta == "F")
                     {
-                        case ConsoleKey.V:
-                            respuestaUsuario = true;
-                            respuestaValida = true;
-                            break;
-                        case ConsoleKey.F:
-                            respuestaUsuario = false;
-                            respuestaValida = true;
-                            break;
-                        default:
-                            Console.WriteLine("\nRespuesta inválida. Por favor, presione 'V' para Verdadero o 'F' para Falso.");
-                            Console.WriteLine("Presione cualquier tecla para intentar nuevamente...");
-                            Console.ReadKey();
-                            break;
+                        break; 
                     }
+                    Console.WriteLine("Respuesta no válida. Por favor ingrese 'V' o 'F'.");
                 }
 
-                if (respuestaUsuario == pregunta.RespuestaCorrecta)
+                // se registran respuestas correctas
+                if ((i == 0 && respuesta == "V") ||
+                    (i == 1 && respuesta == "F") ||
+                    (i == 2 && respuesta == "V") ||
+                    (i == 3 && respuesta == "F") ||
+                    (i == 4 && respuesta == "F"))
                 {
-                    puntuacion++;
-                    Console.WriteLine("\n¡Correcto!");
+                    correctas++;
                 }
-                else
-                {
-                    Console.WriteLine("\nIncorrecto.");
-                }
-
-                Console.WriteLine("Presione una tecla para continuar...");
-                Console.ReadKey();
             }
 
-            Console.Clear();
-            Console.WriteLine("Has completado el Examen Módulo I.");
-            Console.WriteLine($"Tu puntuación es: {puntuacion} de {preguntas.Count}");
-            Console.WriteLine("\nPresiona cualquier tecla para volver al menú de Teoría Musical.");
+            // calcular la calificación del 1 al 10
+            calificacionExamen1 = (int)Math.Round((correctas / 5.0) * 10);
+            Console.Clear(); 
+            Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen1}/10. Presione una tecla para continuar...");
             Console.ReadKey();
-
-            TeoriaMusical();
+            TeoriaMusical(); 
         }
 
         static void examenTM2()
         {
+            Console.Clear(); 
+            int correctas = 0;
 
+            string[] preguntas = 
+            {
+                "1. Las notas son la base sobre la que se construyen melodías y armonías. (V/F)",
+                "2. La escala menor es más común que la escala mayor. (V/F)",
+                "3. Los acordes se forman combinando al menos tres notas. (V/F)",
+                "4. La progresión de acordes no influye en la atmósfera de una composición. (V/F)",
+                "5. La práctica de tocar escalas y acordes es esencial para el desarrollo técnico de un músico. (V/F)"
+            };
+
+            for (int i = 0; i < preguntas.Length; i++)
+            {
+                Console.Clear(); 
+                Console.WriteLine(preguntas[i]);
+                string respuesta;
+
+                
+                while (true)
+                {
+                    respuesta = Console.ReadLine().ToUpper();
+                    if (respuesta == "V" || respuesta == "F")
+                    {
+                        break; 
+                    }
+                    Console.WriteLine("Respuesta no válida. Por favor ingrese 'V' o 'F'.");
+                }
+
+                
+                if ((i == 0 && respuesta == "V") ||
+                    (i == 1 && respuesta == "F") ||
+                    (i == 2 && respuesta == "V") ||
+                    (i == 3 && respuesta == "F") ||
+                    (i == 4 && respuesta == "V"))
+                {
+                    correctas++;
+                }
+            }
+
+            calificacionExamen2 = (int)Math.Round((correctas / 5.0) * 10);
+            Console.Clear(); 
+            Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen2}/10. Presione una tecla para continuar...");
+            Console.ReadKey();
+            TeoriaMusical(); 
         }
 
         static void examenTM3()
         {
+            Console.Clear(); 
+            int correctas = 0;
 
+            string[] preguntas = 
+            {
+                "1. La polifonía se refiere a varias líneas melódicas independientes. (V/F)",
+                "2. La forma musical describe la estructura de una composición. (V/F)",
+                "3. La dinámica en música se refiere a las variaciones en el volumen de las notas. (V/F)",
+                "4. La ornamentación se utiliza para simplificar una línea musical. (V/F)",
+                "5. El ritmo es uno de los elementos más fundamentales de la música. (V/F)"
+            };
+
+            for (int i = 0; i < preguntas.Length; i++)
+            {
+                Console.Clear(); 
+                Console.WriteLine(preguntas[i]);
+                string respuesta;
+
+               
+                while (true)
+                {
+                    respuesta = Console.ReadLine().ToUpper();
+                    if (respuesta == "V" || respuesta == "F")
+                    {
+                        break; 
+                    }
+                    Console.WriteLine("Respuesta no válida. Por favor ingrese 'V' o 'F'.");
+                }
+
+                
+                if ((i == 0 && respuesta == "V") ||
+                    (i == 1 && respuesta == "V") ||
+                    (i == 2 && respuesta == "V") ||
+                    (i == 3 && respuesta == "F") ||
+                    (i == 4 && respuesta == "V"))
+                {
+                    correctas++;
+                }
+            }
+
+            calificacionExamen3 = (int)Math.Round((correctas / 5.0) * 10);
+            Console.Clear(); 
+            Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen3}/10. Presione una tecla para continuar...");
+            Console.ReadKey();
+            TeoriaMusical();
         }
+
         static void Escalas(string nombre)
         {
             Console.Clear();
