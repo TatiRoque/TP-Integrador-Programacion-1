@@ -10,12 +10,14 @@ namespace TrabajoIntegrador
     {
         static void Main(string[] args)
         {
+            Console.SetWindowSize(120, 30);
             EstablecerColores();
             CentrarYMostrarMensaje();
             RestaurarColores();
             Console.ReadKey();
             string nombre = ConsultarNombre();
-            Menu(nombre);
+            List<Cancion> Canciones = new List<Cancion>();
+            Menu(nombre, Canciones);
         }
         static void EstablecerColores()
         {
@@ -35,8 +37,13 @@ namespace TrabajoIntegrador
 
             DibujarBorde(anchoRecuadro, altoRecuadro, posicionX, posicionY);
 
-            Console.SetCursorPosition(posicionX + 12, posicionY + 5);
-            Console.WriteLine(" Bienvenido al Programa de Música ");
+            // Calcular la posición exacta para centrar el texto dentro del recuadro
+            string mensaje = " Bienvenido a MusiConsola ";
+            int posicionMensajeX = posicionX + (anchoRecuadro - mensaje.Length) / 2;
+            int posicionMensajeY = posicionY + altoRecuadro / 2;
+
+            Console.SetCursorPosition(posicionMensajeX, posicionMensajeY);
+            Console.WriteLine(mensaje);
         }
         static void DibujarBorde(int ancho, int alto, int posX, int posY)
         {
@@ -47,7 +54,6 @@ namespace TrabajoIntegrador
                 Console.Write("═");
             }
             Console.Write("╗");
-
             for (int i = 1; i < alto - 1; i++)
             {
                 Console.SetCursorPosition(posX, posY + i);
@@ -55,7 +61,6 @@ namespace TrabajoIntegrador
                 Console.SetCursorPosition(posX + ancho - 1, posY + i);
                 Console.Write("║");
             }
-
             Console.SetCursorPosition(posX, posY + alto - 1);
             Console.Write("╚");
             for (int i = 0; i < ancho - 2; i++)
@@ -75,7 +80,7 @@ namespace TrabajoIntegrador
             string nombre = Console.ReadLine();
             return nombre;
         }
-        static void Menu(string nombre)
+        static void Menu(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             Console.Write("Bienvenido al menú ");
@@ -95,13 +100,13 @@ namespace TrabajoIntegrador
             switch (opcion)
             {
                 case 1:
-                    TeoriaMusical();
+                    TeoriaMusical(nombre, Canciones);
                     break;
                 case 2:
-                    Escalas(nombre);
+                    Escalas(nombre, Canciones);
                     break;
                 case 3:
-                    GuardarAcordes(nombre);
+                    GuardarAcordes(nombre, Canciones);
                     break;
                 case 4:
                     break;
@@ -111,7 +116,7 @@ namespace TrabajoIntegrador
         static int calificacionExamen1 = -1; // -1 indica q el examen no fue realizado aun
         static int calificacionExamen2 = -1;
         static int calificacionExamen3 = -1;
-        static void TeoriaMusical()
+        static void TeoriaMusical(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
 
@@ -136,30 +141,31 @@ namespace TrabajoIntegrador
                 {
                     case 1:
                         opcionTMelegida = true;
-                        mostrarModulo(1);
+                        mostrarModulo(1, nombre, Canciones);
                         break;
                     case 2:
                         opcionTMelegida = true;
-                        mostrarModulo(2);
+                        mostrarModulo(2, nombre, Canciones);
                         break;
                     case 3:
                         opcionTMelegida = true;
-                        mostrarModulo(3);
+                        mostrarModulo(3, nombre, Canciones);
                         break;
                     case 4:
                         opcionTMelegida = true;
-                        examenTM1();
+                        examenTM1(nombre, Canciones);
                         break;
                     case 5:
                         opcionTMelegida = true;
-                        examenTM2();
+                        examenTM2(nombre, Canciones);
                         break;
                     case 6:
                         opcionTMelegida = true;
-                        examenTM3();
+                        examenTM3(nombre, Canciones);
                         break;
                     case 7:
-                        opcionTMelegida = true;                      
+                        Menu(nombre, Canciones);
+                        opcionTMelegida = true;
                         break;
                     default:
                         Console.WriteLine("Ingrese un comando válido (número 1 - 7)");
@@ -172,7 +178,7 @@ namespace TrabajoIntegrador
             Console.ReadKey();
         }
 
-        static void mostrarModulo(int numeroModulo)
+        static void mostrarModulo(int numeroModulo, string nombre, List<Cancion> Canciones)
         {
             string[] paginas;
 
@@ -228,10 +234,10 @@ namespace TrabajoIntegrador
                     paginas = new string[0];
                     break;
             }
-            NavegarPaginas(numeroModulo, paginas);
+            NavegarPaginas(numeroModulo, paginas, nombre, Canciones);
         }
 
-        static void NavegarPaginas(int numeroModulo, string[] paginas)
+        static void NavegarPaginas(int numeroModulo, string[] paginas, string nombre, List<Cancion> Canciones)
         {
             int paginaActual = 0;
             bool enLectura = true;
@@ -268,18 +274,19 @@ namespace TrabajoIntegrador
 
                     case ConsoleKey.Enter:
                         enLectura = false;
-                        TeoriaMusical(); 
+                        TeoriaMusical(nombre, Canciones);
                         break;
                 }
             }
+            TeoriaMusical(nombre, Canciones);
         }
 
-        static void examenTM1()
+        static void examenTM1(string nombre, List<Cancion> Canciones)
         {
-            Console.Clear(); 
+            Console.Clear();
             int correctas = 0;
 
-            string[] preguntas = 
+            string[] preguntas =
             {
                 "1. Aristóteles definió la música como un arte imitativo de la realidad. (V/F)",
                 "2. La música ha sido utilizada únicamente como entretenimiento. (V/F)",
@@ -287,10 +294,17 @@ namespace TrabajoIntegrador
                 "4. La interpretación musical no requiere de habilidades técnicas. (V/F)",
                 "5. Los instrumentos musicales no han evolucionado con el tiempo. (V/F)"
             };
-
+            Console.WriteLine("Eliga ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Verdadero");
+            Console.ResetColor();
+            Console.Write(" o ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Falso");
+            Console.ResetColor();
             for (int i = 0; i < preguntas.Length; i++)
             {
-                Console.Clear(); 
+                Console.Clear();
                 Console.WriteLine(preguntas[i]);
                 string respuesta;
 
@@ -300,7 +314,7 @@ namespace TrabajoIntegrador
                     respuesta = Console.ReadLine().ToUpper();
                     if (respuesta == "V" || respuesta == "F")
                     {
-                        break; 
+                        break;
                     }
                     Console.WriteLine("Respuesta no válida. Por favor ingrese 'V' o 'F'.");
                 }
@@ -318,18 +332,18 @@ namespace TrabajoIntegrador
 
             // calcular la calificación del 1 al 10
             calificacionExamen1 = (int)Math.Round((correctas / 5.0) * 10);
-            Console.Clear(); 
+            Console.Clear();
             Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen1}/10. Presione una tecla para continuar...");
             Console.ReadKey();
-            TeoriaMusical(); 
+            TeoriaMusical(nombre, Canciones);
         }
 
-        static void examenTM2()
+        static void examenTM2(string nombre, List<Cancion> Canciones)
         {
-            Console.Clear(); 
+            Console.Clear();
             int correctas = 0;
 
-            string[] preguntas = 
+            string[] preguntas =
             {
                 "1. Las notas son la base sobre la que se construyen melodías y armonías. (V/F)",
                 "2. La escala menor es más común que la escala mayor. (V/F)",
@@ -340,22 +354,22 @@ namespace TrabajoIntegrador
 
             for (int i = 0; i < preguntas.Length; i++)
             {
-                Console.Clear(); 
+                Console.Clear();
                 Console.WriteLine(preguntas[i]);
                 string respuesta;
 
-                
+
                 while (true)
                 {
                     respuesta = Console.ReadLine().ToUpper();
                     if (respuesta == "V" || respuesta == "F")
                     {
-                        break; 
+                        break;
                     }
                     Console.WriteLine("Respuesta no válida. Por favor ingrese 'V' o 'F'.");
                 }
 
-                
+
                 if ((i == 0 && respuesta == "V") ||
                     (i == 1 && respuesta == "F") ||
                     (i == 2 && respuesta == "V") ||
@@ -367,18 +381,18 @@ namespace TrabajoIntegrador
             }
 
             calificacionExamen2 = (int)Math.Round((correctas / 5.0) * 10);
-            Console.Clear(); 
+            Console.Clear();
             Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen2}/10. Presione una tecla para continuar...");
             Console.ReadKey();
-            TeoriaMusical(); 
+            TeoriaMusical(nombre, Canciones);
         }
 
-        static void examenTM3()
+        static void examenTM3(string nombre, List<Cancion> Canciones)
         {
-            Console.Clear(); 
+            Console.Clear();
             int correctas = 0;
 
-            string[] preguntas = 
+            string[] preguntas =
             {
                 "1. La polifonía se refiere a varias líneas melódicas independientes. (V/F)",
                 "2. La forma musical describe la estructura de una composición. (V/F)",
@@ -389,22 +403,22 @@ namespace TrabajoIntegrador
 
             for (int i = 0; i < preguntas.Length; i++)
             {
-                Console.Clear(); 
+                Console.Clear();
                 Console.WriteLine(preguntas[i]);
                 string respuesta;
 
-               
+
                 while (true)
                 {
                     respuesta = Console.ReadLine().ToUpper();
                     if (respuesta == "V" || respuesta == "F")
                     {
-                        break; 
+                        break;
                     }
                     Console.WriteLine("Respuesta no válida. Por favor ingrese 'V' o 'F'.");
                 }
 
-                
+
                 if ((i == 0 && respuesta == "V") ||
                     (i == 1 && respuesta == "V") ||
                     (i == 2 && respuesta == "V") ||
@@ -416,16 +430,16 @@ namespace TrabajoIntegrador
             }
 
             calificacionExamen3 = (int)Math.Round((correctas / 5.0) * 10);
-            Console.Clear(); 
+            Console.Clear();
             Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen3}/10. Presione una tecla para continuar...");
             Console.ReadKey();
-            TeoriaMusical();
+            TeoriaMusical(nombre, Canciones);
         }
 
-        static void Escalas(string nombre)
+        static void Escalas(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
-            Console.Write($"Por favor eliga una opcion ");
+            Console.Write($"Por favor eliga una opcion \n");
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine(nombre);
             Console.ResetColor();
@@ -440,23 +454,23 @@ namespace TrabajoIntegrador
             switch (opcion)
             {
                 case 1:
-                    MostrarEscalasMayores(nombre);
+                    MostrarEscalasMayores(nombre, Canciones);
                     break;
                 case 2:
-                    MostrarEscalasMenores(nombre);
+                    MostrarEscalasMenores(nombre, Canciones);
                     break;
                 case 3:
-                    ConsultaEscalaMayor(nombre);
+                    ConsultaEscalaMayor(nombre, Canciones);
                     break;
                 case 4:
-                    ConsultaEscalaMenor(nombre);
+                    ConsultaEscalaMenor(nombre, Canciones);
                     break;
                 case 5:
-                    Menu(nombre);
+                    Menu(nombre, Canciones);
                     break;
             }
         }
-        static void MostrarEscalasMayores(string nombre)
+        static void MostrarEscalasMayores(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
 
@@ -469,7 +483,7 @@ namespace TrabajoIntegrador
                 {
                     Console.Write("  \t");
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write($"{EscalaMayor[i,j]}");
+                    Console.Write($"{EscalaMayor[i, j]}");
                     Console.ResetColor();
                     Console.Write("\t ║ ");
 
@@ -477,9 +491,9 @@ namespace TrabajoIntegrador
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
             }
-            MenuEscalas(nombre);
+            MenuEscalas(nombre, Canciones);
         }
-        static void MostrarEscalasMenores(string nombre)
+        static void MostrarEscalasMenores(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             string[,] EscalaMenor = { { "C", "D", "Eb", "F", "G", "Ab", "Bb", "C" }, { "D", "E", "F", "G", "A", "Bb", "C", "D" }, { "E", "F#", "G", "A", "B", "C", "D", "E" }, { "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F" }, { "G", "A", "B", "C", "D", "E", "F#", "G" }, { "A", "Bb", "C", "D", "Eb", "F", "G", "A" }, { "B", "C#", "D", "E", "F#", "G#", "A", "B" } };
@@ -491,16 +505,16 @@ namespace TrabajoIntegrador
                 {
                     Console.Write("  \t");
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write($"{EscalaMenor[i,j]}");
+                    Console.Write($"{EscalaMenor[i, j]}");
                     Console.ResetColor();
                     Console.Write("\t ║ ");
                 }
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
             }
-            MenuEscalas(nombre);
+            MenuEscalas(nombre, Canciones);
         }
-        static void ConsultaEscalaMayor(string nombre)
+        static void ConsultaEscalaMayor(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             Console.WriteLine("Ingrese una nota para saber su escala mayor (A, B, C, D, E, F, G): ");
@@ -527,7 +541,7 @@ namespace TrabajoIntegrador
             }
             Console.WriteLine();
             Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
-            MenuEscalas(nombre);
+            MenuEscalas(nombre, Canciones);
         }
         //verificar esto 
         static bool NotaValida(string nota)
@@ -561,7 +575,7 @@ namespace TrabajoIntegrador
 
             return escalaMayor;
         }
-        static void ConsultaEscalaMenor(string nombre)
+        static void ConsultaEscalaMenor(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             Console.WriteLine("Ingrese una nota para saber su escala menor (A, B, C, D, E, F, G): ");
@@ -586,7 +600,7 @@ namespace TrabajoIntegrador
                 }
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
-                MenuEscalas(nombre);
+                MenuEscalas(nombre, Canciones);
             }
             if (!EsNotaValida(nota))
             {
@@ -610,7 +624,7 @@ namespace TrabajoIntegrador
                 }
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
-                MenuEscalas(nombre);
+                MenuEscalas(nombre, Canciones);
             }
         }
         static bool EsNotaValida(string nota)
@@ -670,11 +684,11 @@ namespace TrabajoIntegrador
             return escalaMenor;
         }
 
-        static void MenuEscalas(string nombre)
+        static void MenuEscalas(string nombre, List<Cancion> Canciones)
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write(nombre); 
+            Console.Write(nombre);
             Console.ResetColor();
             Console.WriteLine(", selecciona una opción");
             Console.WriteLine("1. Volver al menú de escalas.");
@@ -686,18 +700,18 @@ namespace TrabajoIntegrador
             switch (opcion)
             {
                 case 1:
-                    Escalas(nombre);
+                    Escalas(nombre, Canciones);
                     break;
                 case 2:
-                    Menu(nombre);
+                    Menu(nombre, Canciones);
                     break;
                 case 3:
                     break;
             }
         }
-        static void GuardarAcordes(string nombre)
+        static void GuardarAcordes(string nombre, List<Cancion> Canciones)
         {
-            List<Cancion> Canciones = new List<Cancion>();
+
             MenuAcordes(nombre, Canciones);
         }
         static void MenuAcordes(string nombre, List<Cancion> Canciones)
@@ -734,7 +748,7 @@ namespace TrabajoIntegrador
                     BorrarCancion(Canciones, nombre);
                     break;
                 case 6:
-                    Menu(nombre);
+                    Menu(nombre, Canciones);
                     break;
 
             }
@@ -745,7 +759,7 @@ namespace TrabajoIntegrador
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.Write(nombre);
             Console.ResetColor();
-            Console.Write(" deseas agregar un acorde o borrarlo? (");
+            Console.Write(" deseas agregar un acorde o borrarlo? ( ");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("A");
             Console.ResetColor();
@@ -753,7 +767,7 @@ namespace TrabajoIntegrador
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("B");
             Console.ResetColor();
-            Console.WriteLine(" ) ");
+            Console.WriteLine(" ), para volver al menú escriba 'salir'. ");
 
             string sb = Console.ReadLine();
             if (sb.ToLower() == "a")
@@ -763,6 +777,10 @@ namespace TrabajoIntegrador
             else if (sb.ToLower() == "b")
             {
                 BorrarAcorde(Canciones, nombre);
+            }
+            else if (sb.ToLower() == "salir")
+            {
+                MenuAcordes(nombre, Canciones);
             }
             else
             {
@@ -838,7 +856,7 @@ namespace TrabajoIntegrador
             {
                 Console.WriteLine(string.Join(" | ", agregarAcorde.acorde));
                 Console.WriteLine("¿Qué acorde desea borrar?");
-                string acorde =Console.ReadLine();
+                string acorde = Console.ReadLine();
                 agregarAcorde.acorde.Add(acorde);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("El acorde fue agregado con exitó.");
