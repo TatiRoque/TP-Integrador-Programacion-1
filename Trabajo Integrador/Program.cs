@@ -434,7 +434,7 @@ namespace TrabajoIntegrador
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.Write(nombre);
             Console.ResetColor();
-            Console.Write(" deseas agregar un acorde o borrarlo? ");
+            Console.Write(" deseas agregar un acorde o borrarlo? (");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("A");
             Console.ResetColor();
@@ -514,7 +514,7 @@ namespace TrabajoIntegrador
             Console.WriteLine("Ingrese el nombre de la canción y se mostraran sus acordes");
             string nombreCancion = Console.ReadLine();
             Cancion cancionBuscar = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));
-            Console.WriteLine(string.Join("|", cancionBuscar.acorde));
+            Console.WriteLine(string.Join(" | ", cancionBuscar.acorde));
             Console.ReadKey();
             MenuAcordes(nombre, Canciones);
         }
@@ -525,7 +525,7 @@ namespace TrabajoIntegrador
             Cancion agregarAcorde = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));
             if (nombreCancion != null)
             {
-                Console.WriteLine(string.Join("|", agregarAcorde.acorde));
+                Console.WriteLine(string.Join(" | ", agregarAcorde.acorde));
                 Console.WriteLine("¿Qué acorde desea borrar?");
                 string acorde =Console.ReadLine();
                 agregarAcorde.acorde.Add(acorde);
@@ -550,7 +550,6 @@ namespace TrabajoIntegrador
 
             if (nombreCancion != null)
             {
-                Console.WriteLine(cancionBuscar.nombre);
                 Console.WriteLine(string.Join(" | ", cancionBuscar.acorde));
                 Console.WriteLine();
                 Console.WriteLine("¿Cuál acorde quiere borrar?");
