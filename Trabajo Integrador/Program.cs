@@ -75,43 +75,78 @@ namespace TrabajoIntegrador
         }
         static string ConsultarNombre()
         {
-            Console.Clear();
-            Console.WriteLine("¿Cómo es tu nombre?");
-            string nombre = Console.ReadLine();
-            return nombre;
+            string nombre;
+
+            while (true) 
+            {
+                Console.Clear();
+                Console.WriteLine("¿Cómo es tu nombre?\n\n");
+                nombre = Console.ReadLine();
+
+                // verificar si el nombre está vacío
+                if (string.IsNullOrWhiteSpace(nombre))
+                {
+                    Console.WriteLine("\nPor favor ingrese un nombre para continuar.");
+                    Console.WriteLine("Presione cualquier tecla para intentar de nuevo...");
+                    Console.ReadKey(); 
+                }
+                else
+                {
+                    break; 
+                }
+            }
+
+            return nombre; 
         }
+
         static void Menu(string nombre, List<Cancion> Canciones)
         {
-            Console.Clear();
-            Console.Write("Bienvenido al menú ");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine(nombre);
-            Console.ResetColor();
-            Console.WriteLine();
-            Console.WriteLine("Eliga la opción que quiera ejecutar");
-            Console.WriteLine("1. Teoría Musical.");
-            Console.WriteLine("2. Escalas.");
-            Console.WriteLine("3. Guardar mis canciones.");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("4. Salir.");
-            Console.ResetColor();
-
-            int opcion = int.Parse(Console.ReadLine());
-            switch (opcion)
+            while (true) // Bucle para seguir mostrando el menú hasta que se elija salir
             {
-                case 1:
-                    TeoriaMusical(nombre, Canciones);
-                    break;
-                case 2:
-                    Escalas(nombre, Canciones);
-                    break;
-                case 3:
-                    GuardarAcordes(nombre, Canciones);
-                    break;
-                case 4:
-                    break;
+                Console.Clear();
+                Console.Write("Bienvenido al menú ");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(nombre);
+                Console.ResetColor();
+                Console.WriteLine();
+                Console.WriteLine("Elija la opción que quiera ejecutar");
+                Console.WriteLine("1. Teoría Musical.");
+                Console.WriteLine("2. Escalas.");
+                Console.WriteLine("3. Guardar mis canciones.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("4. Salir. \n\n");
+                Console.ResetColor();
+
+                string input = Console.ReadLine(); 
+                int opcion;
+
+                // validar la entrada
+                bool isValidInput = int.TryParse(input, out opcion);
+                if (!isValidInput || opcion < 1 || opcion > 4)
+                {
+                    Console.WriteLine("\nEntrada inválida. Por favor, elija una opción válida (1 - 4).");
+                    Console.WriteLine("Presione cualquier tecla para continuar...");
+                    Console.ReadKey(); 
+                    continue; // vuelve al inicio del bucle para mostrar el menú nuevamente
+                }
+
+                switch (opcion)
+                {
+                    case 1:
+                        TeoriaMusical(nombre, Canciones);
+                        break;
+                    case 2:
+                        Escalas(nombre, Canciones);
+                        break;
+                    case 3:
+                        GuardarAcordes(nombre, Canciones);
+                        break;
+                    case 4:
+                        return; 
+                }
             }
         }
+
 
         static int calificacionExamen1 = -1; // -1 indica q el examen no fue realizado aun
         static int calificacionExamen2 = -1;
@@ -132,50 +167,51 @@ namespace TrabajoIntegrador
 
             Console.WriteLine("\n\n7 - Volver al menú \n ");
 
-            int opcion = int.Parse(Console.ReadLine());
-            bool opcionTMelegida = false;
 
-            do
+            while (true)
             {
+                Console.WriteLine("Ingrese un comando válido (número 1 - 7):");
+
+                if (!int.TryParse(Console.ReadLine(), out int opcion))
+                {
+                    Console.WriteLine("Entrada no válida. Intente nuevamente.");
+                    continue;  // Repetir el bucle si la entrada es inválida.
+                }
+
                 switch (opcion)
                 {
                     case 1:
-                        opcionTMelegida = true;
-                        mostrarModulo(1, nombre, Canciones);
-                        break;
                     case 2:
-                        opcionTMelegida = true;
-                        mostrarModulo(2, nombre, Canciones);
-                        break;
                     case 3:
-                        opcionTMelegida = true;
-                        mostrarModulo(3, nombre, Canciones);
+                        mostrarModulo(opcion, nombre, Canciones);
                         break;
+
                     case 4:
-                        opcionTMelegida = true;
                         examenTM1(nombre, Canciones);
                         break;
+
                     case 5:
-                        opcionTMelegida = true;
                         examenTM2(nombre, Canciones);
                         break;
+
                     case 6:
-                        opcionTMelegida = true;
                         examenTM3(nombre, Canciones);
                         break;
+
                     case 7:
                         Menu(nombre, Canciones);
-                        opcionTMelegida = true;
                         break;
+
                     default:
-                        Console.WriteLine("Ingrese un comando válido (número 1 - 7)");
-                        opcion = int.Parse(Console.ReadLine());
-                        break;
+                        Console.WriteLine("El número ingresado no corresponde a una opción válida.");
+                        continue;  // repetir si la opción no está entre 1 y 7.
                 }
+
+                break;  
             }
-            while (!opcionTMelegida);
 
             Console.ReadKey();
+
         }
 
         static void mostrarModulo(int numeroModulo, string nombre, List<Cancion> Canciones)
@@ -187,46 +223,80 @@ namespace TrabajoIntegrador
                 case 1:
                     paginas = new string[]
                     {
-                    "Aristóteles: \"La música es un arte imitativo de la realidad que afecta profundamente las emociones.\" \n \nAl igual que el filósofo, muchas personas a lo largo de la historia se aventuraron a la dicha misión de poder \nmediante definiciones, limitar las posibilidades del concepto, a fin de controlarlo o quizá sentirlo de alguna \nmanera, concretable. \n\nEl material teórico a continuación se centrará en este último campo mencionado, lo concreto, de forma que se evitaran posibles y probables ambigüedades. \n",
-                    "La música se define como una organización de sonidos que produce efectos en el oyente. \n\nDesde la antigüedad, la música ha sido una parte integral de la cultura humana, utilizada en rituales, ceremonias y como forma de entretenimiento. \n\nA través de diversas civilizaciones, la música ha evolucionado y se ha adaptado a diferentes contextos sociales y culturales. \n",
-                    "La música no solo se experimenta de manera auditiva, sino que también puede provocar respuestas emocionales profundas. \n\nLos ritmos y melodías pueden evocar recuerdos y sentimientos, conectando a las personas a través de experiencias compartidas. \n\nAsí, la música se convierte en un lenguaje universal que trasciende fronteras. \n",
-                    "A lo largo del tiempo, diferentes teorías musicales han surgido para explicar cómo se percibe y se crea la música. \n\nDesde la teoría de las proporciones de Pitágoras hasta la armonía moderna, cada enfoque ha buscado desentrañar los secretos detrás de la creación musical. \n\nLa música, en este sentido, es tanto un arte como una ciencia. \n",
-                    "El papel del compositor es crucial en la creación musical, ya que es quien da forma a las ideas y las traduce en sonidos. \n\nLos compositores utilizan diferentes técnicas y estilos para expresar su visión artística. \n\nDesde la notación musical hasta la improvisación, cada método ofrece una manera única de comunicar emociones. \n",
-                    "Los intérpretes, por su parte, aportan su propia interpretación a las obras musicales, convirtiéndose en mediadores entre el compositor y el público. \n\nLa actuación musical implica no solo la ejecución técnica, sino también la capacidad de transmitir el sentimiento detrás de la música. \n\nEsto agrega otra capa de significado a la experiencia musical. \n",
-                    "A medida que la música ha evolucionado, también lo han hecho los instrumentos musicales. \n\nDesde los primitivos instrumentos de percusión hasta los sofisticados sintetizadores de hoy, cada instrumento aporta su timbre y textura únicos a la música. \n\nLa elección de instrumentos influye directamente en el carácter de una composición. \n",
-                    "La teoría musical no solo se ocupa de la composición, sino también de la forma en que los elementos musicales se combinan. \n\nConceptos como melodía, armonía y ritmo son fundamentales para entender cómo se construyen las obras musicales. \n\nCada uno de estos elementos juega un papel vital en la creación de una experiencia auditiva cohesiva. \n",
-                    "La práctica de la música en conjunto, o la música de cámara, permite a los músicos interactuar y colaborar, enriqueciendo la experiencia musical. \n\nEste tipo de interpretación fomenta la comunicación y la creatividad, haciendo que la música sea una experiencia compartida. \n\nEl trabajo en equipo es esencial para lograr una interpretación exitosa. \n",
-                    "La música, como arte, también refleja la sociedad y la cultura en la que se crea. \n\nA través de las diferentes épocas, los estilos musicales han sido un reflejo de los cambios sociales, políticos y culturales. \n\nAsí, la música se convierte en un espejo de la humanidad, capturando su esencia a lo largo de la historia. \n"
-                    };
+                        "Aristóteles: \"La música es un arte imitativo de la realidad que afecta profundamente las emociones.\" \n \nAl igual que el filósofo, muchas personas a lo largo de la historia se aventuraron a la dicha misión de poder \nmediante definiciones, limitar las posibilidades del concepto, a fin de controlarlo o quizá sentirlo de alguna \nmanera, concretable. \n\nEl material teórico a continuación se centrará en este último campo mencionado, lo concreto, de forma que se evitaran posibles y probables ambigüedades. \n",
+                        "La música se define como una organización de sonidos que produce efectos en el oyente. \n\nDesde la antigüedad, la música ha sido una parte integral de la cultura humana, utilizada en rituales, ceremonias y como forma de entretenimiento. \n\nA través de diversas civilizaciones, la música ha evolucionado y se ha adaptado a diferentes contextos sociales y culturales. \n",
+                        "La música no solo se experimenta de manera auditiva, sino que también puede provocar respuestas emocionales profundas. \n\nLos ritmos y melodías pueden evocar recuerdos y sentimientos, conectando a las personas a través de experiencias compartidas. \n\nAsí, la música se convierte en un lenguaje universal que trasciende fronteras. \n",
+                        "A lo largo del tiempo, diferentes teorías musicales han surgido para explicar cómo se percibe y se crea la música. \n\nDesde la teoría de las proporciones de Pitágoras hasta la armonía moderna, cada enfoque ha buscado desentrañar los secretos detrás de la creación musical. \n\nLa música, en este sentido, es tanto un arte como una ciencia. \n",
+                        "El papel del compositor es crucial en la creación musical, ya que es quien da forma a las ideas y las traduce en sonidos. \n\nLos compositores utilizan diferentes técnicas y estilos para expresar su visión artística. \n\nDesde la notación musical hasta la improvisación, cada método ofrece una manera única de comunicar emociones. \n",
+                        "Los intérpretes, por su parte, aportan su propia interpretación a las obras musicales, convirtiéndose en mediadores entre el compositor y el público. \n\nLa actuación musical implica no solo la ejecución técnica, sino también la capacidad de transmitir el sentimiento detrás de la música. \n\nEsto agrega otra capa de significado a la experiencia musical. \n",
+                        "A medida que la música ha evolucionado, también lo han hecho los instrumentos musicales. \n\nDesde los primitivos instrumentos de percusión hasta los sofisticados sintetizadores de hoy, cada instrumento aporta su timbre y textura únicos a la música. \n\nLa elección de instrumentos influye directamente en el carácter de una composición. \n",
+                        "La teoría musical no solo se ocupa de la composición, sino también de la forma en que los elementos musicales se combinan. \n\nConceptos como melodía, armonía y ritmo son fundamentales para entender cómo se construyen las obras musicales. \n\nCada uno de estos elementos juega un papel vital en la creación de una experiencia auditiva cohesiva. \n",
+                        "La práctica de la música en conjunto, o la música de cámara, permite a los músicos interactuar y colaborar, enriqueciendo la experiencia musical. \n\nEste tipo de interpretación fomenta la comunicación y la creatividad, haciendo que la música sea una experiencia compartida. \n\nEl trabajo en equipo es esencial para lograr una interpretación exitosa. \n",
+                        "La música, como arte, también refleja la sociedad y la cultura en la que se crea. \n\nA través de las diferentes épocas, los estilos musicales han sido un reflejo de los cambios sociales, políticos y culturales. \n\nAsí, la música se convierte en un espejo de la humanidad, capturando su esencia a lo largo de la historia. \n"
+                        };
                     break;
                 case 2:
                     paginas = new string[]
                     {
-                    "En la música, las notas son la base sobre la que se construyen melodías y armonías. \n\nCada nota representa una frecuencia específica y, al combinarlas, se crean diferentes sonidos. \n\nEl sistema de notación musical nos permite escribir y leer estas notas de manera efectiva. \n",
-                    "Las escalas son secuencias de notas que forman la base de la tonalidad en la música. \n\nLa escala mayor y la escala menor son las más comunes, cada una evocando diferentes emociones y sensaciones. \n\nComprender las escalas es fundamental para cualquier músico. \n",
-                    "Los acordes, formados por la combinación de tres o más notas, son esenciales en la música. \n\nPueden ser mayores, menores, aumentados o disminuidos, y cada tipo aporta una atmósfera única a las composiciones. \n\nLos acordes sirven como la columna vertebral de muchas canciones. \n",
-                    "La progresión de acordes es un aspecto crucial en la estructura musical. \n\nUna progresión común puede transformar una simple melodía en una obra maestra. \n\nEntender cómo funcionan estas progresiones es vital para los compositores. \n",
-                    "La armonía se refiere a la combinación de diferentes notas y acordes al mismo tiempo. \n\nEste aspecto de la música crea profundidad y complejidad, enriqueciendo la experiencia auditiva. \n\nLos arreglos vocales e instrumentales son ejemplos claros de la aplicación de la armonía. \n",
-                    "La relación entre las notas en un acorde y su función dentro de una escala es fundamental. \n\nAlgunas notas son consideradas más consonantes y estables, mientras que otras pueden ser disonantes, creando tensión. \n\nEsta tensión y liberación son herramientas poderosas en la música. \n",
-                    "La modulación es el cambio de una tonalidad a otra dentro de una composición. \n\nEste recurso añade dinamismo y variedad a la música, sorprendiendo al oyente. \n\nAprender a modular efectivamente puede llevar una composición a nuevos niveles. \n",
-                    "La relación entre ritmo y armonía es también significativa. \n\nEl ritmo da estructura temporal a la música, mientras que la armonía proporciona el contexto tonal. \n\nAmbos elementos trabajan juntos para crear una experiencia musical coherente. \n",
-                    "La práctica de tocar escalas y acordes es esencial para el desarrollo técnico de cualquier músico. \n\nA través de la repetición y la práctica, los músicos pueden dominar su instrumento y mejorar su habilidad. \n\nEl entrenamiento constante es clave para alcanzar el éxito musical. \n",
-                    "Finalmente, el estudio de notas y acordes no solo es una cuestión técnica, sino también emocional. \n\nCada acorde puede evocar sentimientos y recuerdos, convirtiendo la teoría en una experiencia personal. \n\nLa conexión emocional con la música es lo que la hace verdaderamente poderosa. \n"
-
+                        "En el ámbito de la teoría musical, la polifonía es un concepto clave. \n\nSe refiere a la simultaneidad de varias líneas melódicas independientes, creando una textura rica y compleja. \n\nEste estilo se encuentra en muchas tradiciones musicales alrededor del mundo. \n",
+                        "La forma musical describe la estructura de una composición. \n\nConceptos como verso-coro y sonata son ejemplos de formas utilizadas para organizar las ideas musicales. \n\nComprender la forma es esencial para la creación y análisis musical. \n",
+                        "La textura musical se refiere a cómo se combinan las distintas voces e instrumentos en una pieza. \n\nDesde la monofonía hasta la polifonía, cada tipo de textura ofrece una experiencia auditiva única. \n\nLa textura puede influir en la percepción y el impacto emocional de la música. \n",
+                        "La dinámica en música se refiere a las variaciones en el volumen de las notas. \n\nLos contrastes dinámicos pueden añadir drama y emoción a una interpretación, destacando momentos clave en una composición. \n\nLa habilidad de manejar la dinámica es vital para los intérpretes. \n",
+                        "La ornamentación es el uso de adornos melódicos para enriquecer una línea musical. \n\nEste recurso puede hacer que una melodía suene más expresiva y elaborada. \n\nLos músicos pueden aplicar diversas técnicas de ornamentación para personalizar su interpretación. \n",
+                        "El análisis musical es una herramienta esencial para comprender y descomponer las obras. \n\nA través del análisis, los músicos pueden identificar patrones, estructuras y elementos que contribuyen al efecto general de la música. \n\nEsta habilidad es invaluable para la educación musical. \n",
+                        "La improvisación es una forma de expresión creativa que permite a los músicos crear música en el momento. \n\nEste arte requiere un profundo conocimiento de la teoría y la técnica musical. \n\nLa improvisación también fomenta la creatividad y la espontaneidad. \n",
+                        "El ritmo es uno de los elementos más fundamentales de la música. \n\nLos patrones rítmicos no solo estructuran la música, sino que también pueden evocar emociones y energías específicas. \n\nLa variación en el ritmo puede transformar completamente una composición. \n",
+                        "La interpretación musical es el proceso a través del cual un músico da vida a una obra. \n\nCada intérprete aporta su propio estilo y sensibilidad, haciendo que incluso la misma"
                     };
                     break;
                 case 3:
                     paginas = new string[]
                     {
-                    "En el ámbito de la teoría musical, la polifonía es un concepto clave. \n\nSe refiere a la simultaneidad de varias líneas melódicas independientes, creando una textura rica y compleja. \n\nEste estilo se encuentra en muchas tradiciones musicales alrededor del mundo. \n",
-                    "La forma musical describe la estructura de una composición. \n\nConceptos como verso-coro y sonata son ejemplos de formas utilizadas para organizar las ideas musicales. \n\nComprender la forma es esencial para la creación y análisis musical. \n",
-                    "La textura musical se refiere a cómo se combinan las distintas voces e instrumentos en una pieza. \n\nDesde la monofonía hasta la polifonía, cada tipo de textura ofrece una experiencia auditiva única. \n\nLa textura puede influir en la percepción y el impacto emocional de la música. \n",
-                    "La dinámica en música se refiere a las variaciones en el volumen de las notas. \n\nLos contrastes dinámicos pueden añadir drama y emoción a una interpretación, destacando momentos clave en una composición. \n\nLa habilidad de manejar la dinámica es vital para los intérpretes. \n",
-                    "La ornamentación es el uso de adornos melódicos para enriquecer una línea musical. \n\nEste recurso puede hacer que una melodía suene más expresiva y elaborada. \n\nLos músicos pueden aplicar diversas técnicas de ornamentación para personalizar su interpretación. \n",
-                    "El análisis musical es una herramienta esencial para comprender y descomponer las obras. \n\nA través del análisis, los músicos pueden identificar patrones, estructuras y elementos que contribuyen al efecto general de la música. \n\nEsta habilidad es invaluable para la educación musical. \n",
-                    "La improvisación es una forma de expresión creativa que permite a los músicos crear música en el momento. \n\nEste arte requiere un profundo conocimiento de la teoría y la técnica musical. \n\nLa improvisación también fomenta la creatividad y la espontaneidad. \n",
-                    "El ritmo es uno de los elementos más fundamentales de la música. \n\nLos patrones rítmicos no solo estructuran la música, sino que también pueden evocar emociones y energías específicas. \n\nLa variación en el ritmo puede transformar completamente una composición. \n",
-                    "La interpretación musical es el proceso a través del cual un músico da vida a una obra. \n\nCada intérprete aporta su propio estilo y sensibilidad, haciendo que incluso la misma"
+                        "La música occidental está compuesta por 12 notas que se repiten en distintos registros, \n" +
+                        "lo que significa que puedes encontrar las mismas notas más altas o más bajas. \n" +
+                        "Estas notas son: Do, Do#, Re, Re#, Mi, Fa, Fa#, Sol, Sol#, La, La# y Si. \n\n" +
+                        "En las escalas y canciones, también verás los nombres de estas notas \n" +
+                        "en su versión sin sostenidos (Do, Re, Mi, Fa, Sol, La, Si). \n",
+
+                        "¿Qué es un tono y un semitono? \n\n" +
+                        "Para entender cómo construir escalas, necesitamos conocer la distancia entre dos notas, \n" +
+                        "conocida como *intervalo*. Un *semitono* es la distancia más corta entre dos notas consecutivas, \n" +
+                        "por ejemplo, entre Do y Do# o entre Mi y Fa. \n\n" +
+                        "Un *tono* equivale a dos semitonos, como la distancia entre Do y Re o entre La y Si. \n" +
+                        "Estos intervalos de tono y semitono son esenciales para construir escalas. \n",
+
+                        "Escala Mayor \n\n" +
+                        "La escala mayor es una secuencia de notas que produce un sonido alegre y brillante. \n" +
+                        "Para construirla, seguimos un patrón fijo de tonos y semitonos: \n" +
+                        "Tono, Tono, Semitono, Tono, Tono, Tono, Semitono. \n" +
+                        "Este patrón es el mismo sin importar en qué nota comencemos. \n\n" +
+                        "Por ejemplo, para construir la escala de Do mayor, seguimos este patrón: \n" +
+                        "- Do - Re (tono) \n" +
+                        "- Re - Mi (tono) \n" +
+                        "- Mi - Fa (semitono) \n" +
+                        "- Fa - Sol (tono) \n" +
+                        "- Sol - La (tono) \n" +
+                        "- La - Si (tono) \n" +
+                        "- Si - Do (semitono) \n\n" +
+                        "Esto nos da la escala de Do mayor: Do, Re, Mi, Fa, Sol, La, Si, Do. \n",
+
+                        "Escala Menor \n\n" +
+                        "La escala menor se usa para transmitir emociones más melancólicas o profundas. \n" +
+                        "El patrón de la escala menor es: \n" +
+                        "Tono, Semitono, Tono, Tono, Semitono, Tono, Tono. \n\n" +
+                        "Sigamos este patrón para construir la escala de La menor: \n" +
+                        "- La - Si (tono) \n" +
+                        "- Si - Do (semitono) \n" +
+                        "- Do - Re (tono) \n" +
+                        "- Re - Mi (tono) \n" +
+                        "- Mi - Fa (semitono) \n" +
+                        "- Fa - Sol (tono) \n" +
+                        "- Sol - La (tono) \n\n" +
+                        "Esto nos da la escala de La menor: La, Si, Do, Re, Mi, Fa, Sol, La. \n",
+
+                        "Con estos patrones, puedes construir tanto escalas mayores como menores en cualquier nota de inicio. \n" +
+                        "Las escalas son fundamentales para comprender la estructura de las canciones y la relación entre las notas. \n" +
+                        "También te permiten crear y entender melodías y armonías básicas. \n"
 
                     };
                     break;
@@ -345,11 +415,11 @@ namespace TrabajoIntegrador
 
             string[] preguntas =
             {
-                "1. Las notas son la base sobre la que se construyen melodías y armonías. (V/F)",
-                "2. La escala menor es más común que la escala mayor. (V/F)",
-                "3. Los acordes se forman combinando al menos tres notas. (V/F)",
-                "4. La progresión de acordes no influye en la atmósfera de una composición. (V/F)",
-                "5. La práctica de tocar escalas y acordes es esencial para el desarrollo técnico de un músico. (V/F)"
+                "1. La polifonía se refiere a varias líneas melódicas independientes. (V/F)",
+                "2. La forma musical describe la estructura de una composición. (V/F)",
+                "3. La dinámica en música se refiere a las variaciones en el volumen de las notas. (V/F)",
+                "4. La ornamentación se utiliza para simplificar una línea musical. (V/F)",
+                "5. El ritmo es uno de los elementos más fundamentales de la música. (V/F)"
             };
 
             for (int i = 0; i < preguntas.Length; i++)
@@ -398,7 +468,7 @@ namespace TrabajoIntegrador
                 "2. La forma musical describe la estructura de una composición. (V/F)",
                 "3. La dinámica en música se refiere a las variaciones en el volumen de las notas. (V/F)",
                 "4. La ornamentación se utiliza para simplificar una línea musical. (V/F)",
-                "5. El ritmo es uno de los elementos más fundamentales de la música. (V/F)"
+                "5. La improvisación es una forma de expresión creativa que permite a los músicos crear música en el momento. (V/F)"
             };
 
             for (int i = 0; i < preguntas.Length; i++)
