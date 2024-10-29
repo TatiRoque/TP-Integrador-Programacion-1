@@ -787,7 +787,7 @@ namespace TrabajoIntegrador
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("Por favor ingrese una opción valida");
                 Console.ResetColor();
-                Console.WriteLine("(Presione enter para volver al menú)");
+                Console.WriteLine(" (Presione enter para volver al menú)");
                 Console.ReadKey();
                 OpcionMenuAcordes(Canciones, nombre);
             }
@@ -846,6 +846,8 @@ namespace TrabajoIntegrador
             string nombreCancion = Console.ReadLine();
             Cancion cancionBuscar = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));
             Console.WriteLine(string.Join(" | ", cancionBuscar.acorde));
+            Console.WriteLine() ;
+            Console.WriteLine("Presione enter para volver al menú");
             Console.ReadKey();
             MenuAcordes(nombre, Canciones);
         }
@@ -863,14 +865,14 @@ namespace TrabajoIntegrador
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("El acorde fue agregado con exitó.");
                 Console.ResetColor();
-                Console.WriteLine("(Presione enter para volver al menú)");
+                Console.WriteLine(" (Presione enter para volver al menú)");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write($"La canción '{nombreCancion}' no fue encontrada.");
                 Console.ResetColor();
-                Console.WriteLine("(Presione enter para volver al menú)");
+                Console.WriteLine(" (Presione enter para volver al menú)");
             }
             Console.ReadKey();
             MenuAcordes(nombre, Canciones);
@@ -894,14 +896,14 @@ namespace TrabajoIntegrador
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write($"El acorde '{acordeBorrar}' ha sido borrado de la canción '{cancionBuscar.nombre}'.");
                     Console.ResetColor();
-                    Console.WriteLine("(Presione enter para volver al menú)");
+                    Console.WriteLine(" (Presione enter para volver al menú)");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write($"El acorde '{acordeBorrar}' no se encuentra en la canción '{cancionBuscar.nombre}'.");
                     Console.ResetColor();
-                    Console.WriteLine("(Presione enter para volver al menú)");
+                    Console.WriteLine(" (Presione enter para volver al menú)");
                 }
             }
             else
@@ -909,13 +911,14 @@ namespace TrabajoIntegrador
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write($"La canción '{nombreCancion}' no fue encontrada.");
                 Console.ResetColor();
-                Console.WriteLine("(Presione enter para volver al menú)");
+                Console.WriteLine(" (Presione enter para volver al menú)");
             }
             Console.ReadKey();
             MenuAcordes(nombre, Canciones);
         }
         static void BorrarCancion(List<Cancion> Canciones, string nombre)
         {
+            Console.Clear();
             Console.WriteLine("Ingrese el nombre de la canción que desee borrar.");
             string nombreCancion = Console.ReadLine();
             Cancion cancionBorrar = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));
@@ -925,14 +928,14 @@ namespace TrabajoIntegrador
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("La canción fue eliminada con exitó.");
                 Console.ResetColor();
-                Console.WriteLine("(Presione enter para volver al menú)");
+                Console.WriteLine(" (Presione enter para volver al menú)");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write($"La canción '{nombreCancion}' no fue encontrada.");
                 Console.ResetColor();
-                Console.WriteLine("(Presione enter para volver al menú)");
+                Console.WriteLine(" (Presione enter para volver al menú)");
             }
             Console.ReadKey();
             MenuAcordes(nombre, Canciones);
