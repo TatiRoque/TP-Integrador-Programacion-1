@@ -6,24 +6,34 @@ using System.Linq;
 
 namespace TrabajoIntegrador
 {
+    struct Cancion
+    {
+        public string nombre { get; set; }
+        public List<string> acorde { get; set; }
+        public Cancion(string nombre1)
+        {
+            nombre = nombre1;
+            acorde = new List<string>();
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            Console.SetWindowSize(120, 30);
-            EstablecerColores();
+            Console.SetWindowSize(120, 30);//predetermina el tamaño de la pantalla
+            EstablecerColores();//decora la consola
             CentrarYMostrarMensaje();
-            RestaurarColores();
+            Console.ResetColor();
             Console.ReadKey();
             string nombre = ConsultarNombre();
             List<Cancion> Canciones = new List<Cancion>();
             bool existeCancion = false;
-            Menu(nombre, Canciones, existeCancion);
+            Menu(nombre, Canciones);
         }
         static void EstablecerColores()
         {
-            Console.BackgroundColor = ConsoleColor.DarkRed;  
-            Console.ForegroundColor = ConsoleColor.Yellow;    
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = ConsoleColor.Yellow;
         }
         static void CentrarYMostrarMensaje()
         {
@@ -38,7 +48,7 @@ namespace TrabajoIntegrador
 
             DibujarBorde(anchoRecuadro, altoRecuadro, posicionX, posicionY);
 
-            
+
             string mensaje = " Bienvenido a MusiConsola ";
             int posicionMensajeX = posicionX + (anchoRecuadro - mensaje.Length) / 2;
             int posicionMensajeY = posicionY + altoRecuadro / 2;
@@ -70,11 +80,7 @@ namespace TrabajoIntegrador
             }
             Console.Write("╝");
         }
-        static void RestaurarColores()
-        {
-            Console.ResetColor();
-        }
-        static string ConsultarNombre()
+        static string ConsultarNombre()//para tener una experiencia mas personalizada se le pide al usuario su nombre
         {
             string nombre;
 
@@ -84,8 +90,8 @@ namespace TrabajoIntegrador
                 Console.WriteLine("¿Cómo es tu nombre?\n\n");
                 nombre = Console.ReadLine();
 
-               
-                if (string.IsNullOrWhiteSpace(nombre))
+
+                if (string.IsNullOrWhiteSpace(nombre))//revisa que no este vacio
                 {
                     Console.WriteLine("\nPor favor ingrese un nombre para continuar.");
                     Console.WriteLine("Presione cualquier tecla para intentar de nuevo...");
@@ -100,9 +106,10 @@ namespace TrabajoIntegrador
             return nombre;
         }
 
-        static void Menu(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void Menu(string nombre, List<Cancion> Canciones)
         {
-            while (true) // Bucle para seguir mostrando el menú hasta que se elija salir
+            int opcion;
+            do // Bucle para seguir mostrando el menú hasta que se elija salir
             {
                 Console.Clear();
                 Console.Write("Bienvenido al menú ");
@@ -119,7 +126,6 @@ namespace TrabajoIntegrador
                 Console.ResetColor();
 
                 string input = Console.ReadLine();
-                int opcion;
 
                 // validar la entrada
                 bool isValidInput = int.TryParse(input, out opcion);
@@ -128,7 +134,7 @@ namespace TrabajoIntegrador
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nEntrada inválida. Por favor, elija una opción válida (1 - 4).");
                     Console.ResetColor();
-                    Console.WriteLine("Presione cualquier tecla para continuar...");
+                    Console.WriteLine("Presione cualquier tecla para volver a intentarlo...");
                     Console.ReadKey();
                     continue; // vuelve al inicio del bucle para mostrar el menú nuevamente
                 }
@@ -136,25 +142,25 @@ namespace TrabajoIntegrador
                 switch (opcion)
                 {
                     case 1:
-                        TeoriaMusical(nombre, Canciones, existeCancion);
+                        TeoriaMusical(nombre, Canciones);
                         break;
                     case 2:
-                        Escalas(nombre, Canciones, existeCancion);
+                        Escalas(nombre, Canciones);
                         break;
                     case 3:
-                        GuardarAcordes(nombre, Canciones, existeCancion);
+                        GuardarAcordes(nombre, Canciones);
                         break;
                     case 4:
-                        return;
+                        break;
                 }
-            }
+            } while (opcion != 4);
         }
 
 
         static int calificacionExamen1 = -1; // -1 indica q el examen no fue realizado aun
         static int calificacionExamen2 = -1;
         static int calificacionExamen3 = -1;
-        static void TeoriaMusical(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void TeoriaMusical(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
 
@@ -175,13 +181,13 @@ namespace TrabajoIntegrador
 
             Console.WriteLine("\n\n7 - Volver al menú \n ");
 
-            if (!int.TryParse(Console.ReadLine(), out int opcion))
+            if (!int.TryParse(Console.ReadLine(), out int opcion))//revisa que la entrada sea valida
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Entrada no válida. Intente nuevamente. (Presione enter para volver a intentar)");
                 Console.ResetColor();
                 Console.ReadKey();
-                TeoriaMusical(nombre, Canciones, existeCancion);
+                TeoriaMusical(nombre, Canciones);
 
             }
 
@@ -190,32 +196,32 @@ namespace TrabajoIntegrador
                 case 1:
                 case 2:
                 case 3:
-                    mostrarModulo(opcion, nombre, Canciones, existeCancion);
+                    mostrarModulo(opcion, nombre, Canciones);
                     break;
 
                 case 4:
-                    examenTM1(nombre, Canciones, existeCancion);
+                    examenTM1(nombre, Canciones);
                     break;
 
                 case 5:
-                    examenTM2(nombre, Canciones, existeCancion);
+                    examenTM2(nombre, Canciones);
                     break;
 
                 case 6:
-                    examenTM3(nombre, Canciones, existeCancion);
+                    examenTM3(nombre, Canciones);
                     break;
 
                 case 7:
-                    Menu(nombre, Canciones, existeCancion);
+                    Menu(nombre, Canciones);
                     break;
 
-                default:
+                default://revisa que la entrada sea valida
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("El número ingresado no corresponde a una opción válida. (Presione una tecla para volver al menú)");
                     Console.ResetColor();
                     Console.ReadKey();
-                    TeoriaMusical(nombre, Canciones, existeCancion);
+                    TeoriaMusical(nombre, Canciones);
                     break;
             }
 
@@ -223,7 +229,7 @@ namespace TrabajoIntegrador
 
         }
 
-        static void mostrarModulo(int numeroModulo, string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void mostrarModulo(int numeroModulo, string nombre, List<Cancion> Canciones)//muestra la teoria
         {
             string[] paginas;
 
@@ -313,10 +319,10 @@ namespace TrabajoIntegrador
                     paginas = new string[0];
                     break;
             }
-            NavegarPaginas(numeroModulo, paginas, nombre, Canciones, existeCancion);
+            NavegarPaginas(numeroModulo, paginas, nombre, Canciones);
         }
 
-        static void NavegarPaginas(int numeroModulo, string[] paginas, string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void NavegarPaginas(int numeroModulo, string[] paginas, string nombre, List<Cancion> Canciones)
         {
             int paginaActual = 0;
             bool enLectura = true;
@@ -353,14 +359,14 @@ namespace TrabajoIntegrador
 
                     case ConsoleKey.Enter:
                         enLectura = false;
-                        TeoriaMusical(nombre, Canciones, existeCancion);
+                        TeoriaMusical(nombre, Canciones);
                         break;
                 }
             }
-            TeoriaMusical(nombre, Canciones, existeCancion);
+            TeoriaMusical(nombre, Canciones);
         }
 
-        static void examenTM1(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void examenTM1(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             int correctas = 0;
@@ -414,10 +420,10 @@ namespace TrabajoIntegrador
             Console.Clear();
             Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen1}/10. Presione una tecla para continuar...");
             Console.ReadKey();
-            TeoriaMusical(nombre, Canciones, existeCancion);
+            TeoriaMusical(nombre, Canciones);
         }
 
-        static void examenTM2(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void examenTM2(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             int correctas = 0;
@@ -463,10 +469,10 @@ namespace TrabajoIntegrador
             Console.Clear();
             Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen2}/10. Presione una tecla para continuar...");
             Console.ReadKey();
-            TeoriaMusical(nombre, Canciones, existeCancion);
+            TeoriaMusical(nombre, Canciones);
         }
 
-        static void examenTM3(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void examenTM3(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             int correctas = 0;
@@ -512,10 +518,10 @@ namespace TrabajoIntegrador
             Console.Clear();
             Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen3}/10. Presione una tecla para continuar...");
             Console.ReadKey();
-            TeoriaMusical(nombre, Canciones, existeCancion);
+            TeoriaMusical(nombre, Canciones);
         }
 
-        static void Escalas(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void Escalas(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             Console.Write($"Por favor eliga una opcion ");
@@ -533,27 +539,27 @@ namespace TrabajoIntegrador
             switch (opcion)
             {
                 case 1:
-                    MostrarEscalasMayores(nombre, Canciones, existeCancion);
+                    MostrarEscalasMayores(nombre, Canciones);
                     break;
                 case 2:
-                    MostrarEscalasMenores(nombre, Canciones, existeCancion);
+                    MostrarEscalasMenores(nombre, Canciones);
                     break;
                 case 3:
-                    ConsultaEscalaMayor(nombre, Canciones, existeCancion);
+                    ConsultaEscalaMayor(nombre, Canciones);
                     break;
                 case 4:
-                    ConsultaEscalaMenor(nombre, Canciones, existeCancion);
+                    ConsultaEscalaMenor(nombre, Canciones);
                     break;
                 case 5:
-                    Menu(nombre, Canciones, existeCancion);
+                    Menu(nombre, Canciones);
                     break;
             }
         }
-        static void MostrarEscalasMayores(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void MostrarEscalasMayores(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
 
-            string[,] EscalaMayor = { { "C", "D", "E", "F", "G", "A", "B", "C" },
+            string[,] EscalaMayor = { { "C", "D", "E", "F", "G", "A", "B", "C" },//guarda en una matriz, todas las escalas
                 { "D", "E", "F#", "G", "A", "B", "C#", "D" },
                 { "E", "F#", "G#", "A", "B", "C#", "D#", "E" },
                 { "F", "G", "A", "Bb", "C", "D", "E", "F" },
@@ -568,7 +574,7 @@ namespace TrabajoIntegrador
                 {
                     Console.Write("  \t");
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write($"{EscalaMayor[i, j]}");
+                    Console.Write($"{EscalaMayor[i, j]}");//muestra todas las escalas mayores
                     Console.ResetColor();
                     Console.Write("\t ║ ");
 
@@ -576,12 +582,13 @@ namespace TrabajoIntegrador
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
             }
-            MenuEscalas(nombre, Canciones, existeCancion);
+            MenuEscalas(nombre, Canciones);
         }
-        static void MostrarEscalasMenores(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void MostrarEscalasMenores(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             string[,] EscalaMenor = { { "C", "D", "Eb", "F", "G", "Ab", "Bb", "C" }, { "D", "E", "F", "G", "A", "Bb", "C", "D" }, { "E", "F#", "G", "A", "B", "C", "D", "E" }, { "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F" }, { "G", "A", "B", "C", "D", "E", "F#", "G" }, { "A", "Bb", "C", "D", "Eb", "F", "G", "A" }, { "B", "C#", "D", "E", "F#", "G#", "A", "B" } };
+            //guarda en una matriz, todas las escalas
             for (int i = 0; i < 7; i++)
             {
                 Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
@@ -590,27 +597,27 @@ namespace TrabajoIntegrador
                 {
                     Console.Write("  \t");
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write($"{EscalaMenor[i, j]}");
+                    Console.Write($"{EscalaMenor[i, j]}");//muestra todas las escalas mayores
                     Console.ResetColor();
                     Console.Write("\t ║ ");
                 }
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
             }
-            MenuEscalas(nombre, Canciones, existeCancion);
+            MenuEscalas(nombre, Canciones);
         }
-        static void ConsultaEscalaMayor(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void ConsultaEscalaMayor(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             Console.WriteLine("Ingrese una nota para saber su escala mayor (A, B, C, D, E, F, G): ");
-            string nota = Console.ReadLine().ToUpper();
-            if (!NotaValida(nota))
+            string nota = Console.ReadLine().ToUpper();//guarda la nota que el usuario ingreso
+            if (!NotaValida(nota))//revisa que la entrada sea valida
             {
                 Console.WriteLine("Nota inválida. Por favor ingrese una nota válida.");
                 return;
             }
 
-            string[] escalaMayor = ObtenerEscalaMayor(nota);
+            string[] escalaMayor = ObtenerEscalaMayor(nota);//consulta cual es la escala mayor al modulo ObtenerEscalaMayor(nota), y guarda el resultado en un array llamado escalaMayor
             Console.Clear();
             Console.WriteLine($"La escala mayor de {nota} es: ");
             Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
@@ -619,56 +626,56 @@ namespace TrabajoIntegrador
             {
                 Console.Write("  \t");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write($"{escalaMayor[i]}");
+                Console.Write($"{escalaMayor[i]}");//luego muestra  la escala obtenida aqui
                 Console.ResetColor();
                 Console.Write("\t ║ ");
 
             }
             Console.WriteLine();
             Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
-            MenuEscalas(nombre, Canciones, existeCancion);
+            MenuEscalas(nombre, Canciones);
         }
-        static bool NotaValida(string nota)
+        static bool NotaValida(string nota)//se chequea que las notas ingresadas sean validas
         {
             string[] notasValidas = { "A", "B", "C", "D", "E", "F", "G" };
             return Array.Exists(notasValidas, n => n == nota);
         }
         static string[] ObtenerEscalaMayor(string notaBase)
         {
-            string[] escalaCromatica = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+            string[] escalaCromatica = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };//escala cromatica(todas las notas)
 
-            int indiceNotaBase = Array.IndexOf(escalaCromatica, notaBase);
+            int indiceNotaBase = Array.IndexOf(escalaCromatica, notaBase);//busca el index de la nota ingresada
 
             // Tono, Tono, Semitono, Tono, Tono, Tono, Semitono
             int[] intervalos = { 2, 2, 1, 2, 2, 2, 1 };
 
             string[] escalaMayor = new string[8];
 
-            // La primera posición del array escalaMayor será siempre la nota base ingresada por el usuario.
+            // la primera posición del array escalaMayor será siempre la nota base ingresada por el usuario.
             escalaMayor[0] = notaBase;
 
-            // Calcular las demás notas de la escala mayor
+            // calcula las demás notas de la escala mayor
             int indiceActual = indiceNotaBase;
             for (int i = 0; i < intervalos.Length; i++)
             {
-                // Si el índice calculado es 12, entonces 12 % 12 = 0 (volver a la primera nota, C).
-                //Si el índice calculado es 13, entonces 13 % 12 = 1(volvemos a la segunda nota, C#).
+                // si el índice calculado es 12, entonces 12 % 12 = 0 (vuelve a la primera nota, C).
+                //si el índice calculado es 13, entonces 13 % 12 = 1(vuelve a la segunda nota, C#).
                 indiceActual = (indiceActual + intervalos[i]) % escalaCromatica.Length;
                 escalaMayor[i + 1] = escalaCromatica[indiceActual];
             }
 
             return escalaMayor;
         }
-        static void ConsultaEscalaMenor(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void ConsultaEscalaMenor(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             Console.WriteLine("Ingrese una nota para saber su escala menor (A, B, C, D, E, F, G): ");
-            string nota = Console.ReadLine().ToUpper();
+            string nota = Console.ReadLine().ToUpper();//guarda la nota que el usuario ingreso
             string eEscalaMenor = "E";
             string bEscalaMenor = "B";
-            if (nota == eEscalaMenor || nota == bEscalaMenor)
+            if (nota == eEscalaMenor || nota == bEscalaMenor)//si la entrada es la nota E(Mi) o B(Si) se necesita acceder a otro modulo
             {
-                string[] escalaMenor = EscalaMenorEyB(nota);
+                string[] escalaMenor = EscalaMenorEyB(nota);//consulta cual es la escala menor al modulo EscalaMenorEyB(nota), y guarda el resultado en un array llamado escalaMenor
                 Console.Clear();
                 Console.WriteLine($"La escala menor de {nota} es: ");
                 Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
@@ -677,23 +684,23 @@ namespace TrabajoIntegrador
                 {
                     Console.Write("  \t");
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write($"{escalaMenor[i]}");
+                    Console.Write($"{escalaMenor[i]}");//muestra la escala
                     Console.ResetColor();
                     Console.Write("\t ║ ");
 
                 }
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
-                MenuEscalas(nombre, Canciones, existeCancion);
+                MenuEscalas(nombre, Canciones);
             }
-            if (!EsNotaValida(nota))
+            if (!NotaValida(nota))//revisa que la entrada sea valida
             {
                 Console.WriteLine("Nota inválida. Por favor ingrese una nota válida.");
                 return;
             }
-            else
+            else //si la nota ingresa es valida y no es ni B o E, sigue el codigo con normalidad
             {
-                string[] escalaMenor = ObtenerEscalaMenor(nota);
+                string[] escalaMenor = ObtenerEscalaMenor(nota);//consulta cual es la escala menor al modulo EscalaMenor(nota), y guarda el resultado en un array llamado escalaMenor
                 Console.Clear();
                 Console.WriteLine($"La escala menor de {nota} es: ");
                 Console.WriteLine("╔════════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╦═══════════════╗");
@@ -708,17 +715,12 @@ namespace TrabajoIntegrador
                 }
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╩═══════════════╝");
-                MenuEscalas(nombre, Canciones, existeCancion);
+                MenuEscalas(nombre, Canciones);
             }
-        }
-        static bool EsNotaValida(string nota)
-        {
-            string[] notasValidas = { "A", "B", "C", "D", "E", "F", "G" };
-            return Array.Exists(notasValidas, n => n == nota);
         }
         static string[] EscalaMenorEyB(string notaBase)
         {
-            string[] escalaCromatica = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+            string[] escalaCromatica = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };//escala cromatica(todas las notas)
 
             int indiceNotaBase = Array.IndexOf(escalaCromatica, notaBase);
 
@@ -734,8 +736,8 @@ namespace TrabajoIntegrador
             int indiceActual = indiceNotaBase;
             for (int i = 0; i < intervalos.Length; i++)
             {
-                // Si el índice calculado es 12, entonces 12 % 12 = 0 (volver a la primera nota, C).
-                //Si el índice calculado es 13, entonces 13 % 12 = 1(volvemos a la segunda nota, C#).
+                // si el índice calculado es 12, entonces 12 % 12 = 0 (vuelve a la primera nota, C).
+                //si el índice calculado es 13, entonces 13 % 12 = 1(vuelve a la segunda nota, C#).
                 indiceActual = (indiceActual + intervalos[i]) % escalaCromatica.Length;
                 escalaMenor[i + 1] = escalaCromatica[indiceActual];
             }
@@ -743,7 +745,7 @@ namespace TrabajoIntegrador
         }
         static string[] ObtenerEscalaMenor(string notaBase)
         {
-            string[] escalaCromatica = { "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" };
+            string[] escalaCromatica = { "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" };//escala cromatica(todas las notas)
 
             int indiceNotaBase = Array.IndexOf(escalaCromatica, notaBase);
 
@@ -752,15 +754,15 @@ namespace TrabajoIntegrador
 
             string[] escalaMenor = new string[8];
 
-            // La primera posición del array escalaMayor será siempre la nota base ingresada por el usuario.
+            //la primera posición del array escalaMayor será siempre la nota base ingresada por el usuario.
             escalaMenor[0] = notaBase;
 
-            // Calcular las demás notas de la escala mayor
+            // calcular las demás notas de la escala mayor
             int indiceActual = indiceNotaBase;
             for (int i = 0; i < intervalos.Length; i++)
             {
-                // Si el índice calculado es 12, entonces 12 % 12 = 0 (volver a la primera nota, C).
-                //Si el índice calculado es 13, entonces 13 % 12 = 1(volvemos a la segunda nota, C#).
+                // si el índice calculado es 12, entonces 12 % 12 = 0 (vuelve a la primera nota, C).
+                //si el índice calculado es 13, entonces 13 % 12 = 1(vuelve a la segunda nota, C#).
                 indiceActual = (indiceActual + intervalos[i]) % escalaCromatica.Length;
                 escalaMenor[i + 1] = escalaCromatica[indiceActual];
             }
@@ -768,7 +770,7 @@ namespace TrabajoIntegrador
             return escalaMenor;
         }
 
-        static void MenuEscalas(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void MenuEscalas(string nombre, List<Cancion> Canciones)
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -786,36 +788,36 @@ namespace TrabajoIntegrador
                 switch (opcion)
                 {
                     case 1:
-                        Escalas(nombre, Canciones, existeCancion);
+                        Escalas(nombre, Canciones);
                         break;
                     case 2:
-                        Menu(nombre, Canciones, existeCancion);
+                        Menu(nombre, Canciones);
                         break;
-                    default:
+                    default:// el usuario no podra salir del menu hasta ingresar una opcion valida
                         Console.Clear();
-                        MenuEscalas(nombre, Canciones, existeCancion);
+                        MenuEscalas(nombre, Canciones);
                         break;
                 }
             }
-            else
+            else// el usuario no podra salir del menu hasta ingresar una opcion valida
             {
                 Console.Clear();
-                MenuEscalas(nombre, Canciones, existeCancion);
+                MenuEscalas(nombre, Canciones);
             }
         }
 
-        static void GuardarAcordes(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void GuardarAcordes(string nombre, List<Cancion> Canciones)
         {
 
-            MenuAcordes(nombre, Canciones, existeCancion);
+            MenuAcordes(nombre, Canciones);
         }
-        static void MenuAcordes(string nombre, List<Cancion> Canciones, bool existeCancion)
+        static void MenuAcordes(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.Write(nombre);
             Console.ResetColor();
-            Console.WriteLine(", selecciona una opción\n\n");
+            Console.WriteLine(", selecciona una opción\n\n");//menu para guardar canciones
             Console.WriteLine("1. Agregar canción\n");
             Console.WriteLine("2. Mostrar todas las canciones\n");
             Console.WriteLine("3. Buscar canciones\n");
@@ -828,215 +830,242 @@ namespace TrabajoIntegrador
             switch (opcion)
             {
                 case 1:
-                    AgregarCancion(Canciones, nombre, existeCancion);
+
+                    AgregarCancion(Canciones, nombre);
                     break;
                 case 2:
-                    MostrarCanciones(Canciones, nombre, existeCancion);
+                    if (Canciones.Count != 0)//este if verifica que haya canciones guardadas previamente
+                    {
+                        MostrarCanciones(Canciones, nombre);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No hay ninguna cancion guardada. Por favor presione cualquier tecla para ser dirigido al menú");
+                        Console.ReadKey();
+                        Console.Clear();
+                        MenuAcordes(nombre, Canciones);//y si no lo hay te redirije al menu para que agregues
+                    }
                     break;
                 case 3:
-                    BuscarCancion(Canciones, nombre, existeCancion);
+                    if (Canciones.Count != 0)
+                    {
+                        BuscarCancion(Canciones, nombre);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No hay ninguna cancion guardada.Por favor presione cualquier tecla para ser dirigido al menú");
+                        Console.ReadKey();
+                        Console.Clear();
+                        MenuAcordes(nombre, Canciones);
+
+                    }
                     break;
                 case 4:
-                    OpcionMenuAcordes(Canciones, nombre, existeCancion);
+                    if (Canciones.Count != 0)
+                    {
+                        OpcionMenuAcordes(Canciones, nombre);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No hay ninguna cancion guardada.Por favor presione cualquier tecla para ser dirigido al menú");
+                        Console.ReadKey();
+                        Console.Clear();
+                        MenuAcordes(nombre, Canciones);
+
+                    }
                     break;
                 case 5:
-                    BorrarCancion(Canciones, nombre, existeCancion);
+                    if (Canciones.Count != 0)
+                    {
+                        BorrarCancion(Canciones, nombre);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No hay ninguna cancion guardada.Por favor presione cualquier tecla para ser dirigido al menú");
+                        Console.ReadKey();
+                        Console.Clear();
+                        MenuAcordes(nombre, Canciones);
+
+                    }
                     break;
                 case 6:
-                    Menu(nombre, Canciones, existeCancion);
+                    Menu(nombre, Canciones);//vuelve al menu principal
                     break;
 
             }
         }
-        static void OpcionMenuAcordes(List<Cancion> Canciones, string nombre, bool existeCancion)
+        static void OpcionMenuAcordes(List<Cancion> Canciones, string nombre)
         {
-            if (existeCancion = false)
-            {
-                Console.WriteLine("No hay ninguna canción gurdada");
-                AgregarCancion(Canciones, nombre, existeCancion);
-            }
-            else
-            {
 
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write(nombre);
-                Console.ResetColor();
-                Console.Write(" deseas agregar un acorde o borrarlo? ( ");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("A");
-                Console.ResetColor();
-                Console.Write(" / ");
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write(nombre);
+            Console.ResetColor();
+            Console.Write(" deseas agregar un acorde o borrarlo? ( ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("A");
+            Console.ResetColor();
+            Console.Write(" / ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("B");
+            Console.ResetColor();
+            Console.WriteLine(" ), para volver al menú escriba 'salir'.");
+            Console.WriteLine();
+            string sb = Console.ReadLine();
+            if (sb.ToLower() == "a")//si desea agregar un acorde el flujo del programa cambia
+            {
+                AgregarAcorde(Canciones, nombre);
+            }
+            else if (sb.ToLower() == "b")//si desea borrar un acorde el flujo del programa cambia
+            {
+                BorrarAcorde(Canciones, nombre);
+            }
+            else if (sb.ToLower() == "salir")//vuelve al menu
+            {
+                MenuAcordes(nombre, Canciones);
+            }
+            else//comprueba que la entrada sea valida
+            {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("B");
+                Console.Write("Por favor ingrese una opción valida");
                 Console.ResetColor();
-                Console.WriteLine(" ), para volver al menú escriba 'salir'.");
-                Console.WriteLine();
-                string sb = Console.ReadLine();
-                if (sb.ToLower() == "a")
-                {
-                    AgregarAcorde(Canciones, nombre, existeCancion);
-                }
-                else if (sb.ToLower() == "b")
-                {
-                    BorrarAcorde(Canciones, nombre, existeCancion);
-                }
-                else if (sb.ToLower() == "salir")
-                {
-                    MenuAcordes(nombre, Canciones, existeCancion);
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Por favor ingrese una opción valida");
-                    Console.ResetColor();
-                    Console.WriteLine(" (Presione enter para volver al menú)");
-                    Console.ReadKey();
-                    OpcionMenuAcordes(Canciones, nombre, existeCancion);
-                }
+                Console.WriteLine(" (Presione enter para volver al menú)");
+                Console.ReadKey();
+                OpcionMenuAcordes(Canciones, nombre);
             }
 
-
         }
-        struct Cancion
-        {
-            public string nombre { get; set; }
-            public List<string> acorde { get; set; }
-            public Cancion(string nombre1)
-            {
-                nombre = nombre1;
-                acorde = new List<string>();
-            }
-        }
-        static void AgregarCancion(List<Cancion> Canciones, string nombre, bool existeCancion)
+        static void AgregarCancion(List<Cancion> Canciones, string nombre)
         {
             Console.Clear();
             Console.WriteLine("¿Cómo se llama su canción?\n");
             string nombre1 = Console.ReadLine();
-            Cancion nuevaCancion = new Cancion(nombre1);
-            Console.WriteLine("\nIngrese tantos acordes quiera y a al terminar escriba 'listo'.\n");
-            while (true)
-            {
-                string acorde = Console.ReadLine();
-                if (acorde.ToLower() == "listo")
-                {
-                    break;
-                }
-                nuevaCancion.acorde.Add(acorde);
-            }
-            Canciones.Add(nuevaCancion);
-            MenuAcordes(nombre, Canciones, existeCancion);
-            existeCancion = true;
-        }
-        static void MostrarCanciones(List<Cancion> Canciones, string nombre, bool existeCancion)
-        {
-            if (existeCancion = false)
-            {
-                Console.WriteLine("No hay ninguna canción gurdada");
-                AgregarCancion(Canciones, nombre, existeCancion);
-            }
-            else
-            {
 
-                Console.Clear();
-                foreach (var cancion in Canciones)
-                {
-                    Console.WriteLine();
-                    Console.Write($"{cancion.nombre} por ");
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine(nombre);
-                    Console.WriteLine("");
-                    Console.ResetColor();
-                    Console.WriteLine(string.Join(" | ", cancion.acorde));
-
-                }
-                Console.WriteLine("\nPresione enter para volver al menú");
+            if (string.IsNullOrWhiteSpace(nombre1))//revisa que no este vacio
+            {
+                Console.WriteLine("Ingrese un valor valido (Presione cualquier tecla para volver a intentarlo)");//verifica que la entrada sesa valida
                 Console.ReadKey();
-                MenuAcordes(nombre, Canciones, existeCancion);
-            }
-        }
-        static void BuscarCancion(List<Cancion> Canciones, string nombre, bool existeCancion)
-        {
-            if (existeCancion = false)
-            {
-                Console.WriteLine("No hay ninguna canción");
-                AgregarCancion(Canciones, nombre, existeCancion);
+                AgregarCancion(Canciones, nombre);
             }
             else
             {
-
-                Console.Clear();
-                Console.WriteLine("Ingrese el nombre de la canción y se mostraran sus acordes\n");
-                string nombreCancion = Console.ReadLine();
-                Cancion cancionBuscar = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));
-                Console.WriteLine("");
-                Console.WriteLine(string.Join(" | ", cancionBuscar.acorde));
-                Console.WriteLine();
-                Console.WriteLine("Presione enter para volver al menú");
-                Console.ReadKey();
-                MenuAcordes(nombre, Canciones, existeCancion);
-            }
-        }
-        static void AgregarAcorde(List<Cancion> Canciones, string nombre, bool existeCancion)
-        {
-            if (existeCancion = false)
-            {
-                Console.WriteLine("No hay ninguna canción");
-                AgregarCancion(Canciones, nombre, existeCancion);
-            }
-            else
-            {
-
-                Console.WriteLine("\nIngrese el nombre de la canción en la que esta el acorde\n");
-                string nombreCancion = Console.ReadLine();
-                Cancion agregarAcorde = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));
-                if (nombreCancion != null)
+                Cancion nuevaCancion = new Cancion(nombre1);
+                Console.WriteLine("\nIngrese tantos acordes quiera y a al terminar escriba 'listo'.\n");
+                while (true)//se seguiran aceptando entradas hasta que el usuario ingrese 'listo'
                 {
-                    Console.WriteLine(string.Join(" | ", agregarAcorde.acorde));
-                    Console.WriteLine();
-                    Console.WriteLine("\n¿Qué acorde desea agregar?\n");
                     string acorde = Console.ReadLine();
-                    agregarAcorde.acorde.Add(acorde);
+                    if (acorde.ToLower() == "listo")
+                    {
+                        break;
+                    }
+                    nuevaCancion.acorde.Add(acorde);
+                }
+                Canciones.Add(nuevaCancion);
+                MenuAcordes(nombre, Canciones);
+
+            }
+        }
+        static void MostrarCanciones(List<Cancion> Canciones, string nombre)
+        {
+            Console.Clear();
+            foreach (var cancion in Canciones)//recorre la lista con un foreach mostrando asi, todas las canciones
+            {
+                Console.WriteLine();
+                Console.Write($"{cancion.nombre} por ");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(nombre);
+                Console.WriteLine("");
+                Console.ResetColor();
+                Console.WriteLine(string.Join(" | ", cancion.acorde));
+
+            }
+            Console.WriteLine("\nPresione enter para volver al menú");
+            Console.ReadKey();
+            MenuAcordes(nombre, Canciones);
+        }
+        static void BuscarCancion(List<Cancion> Canciones, string nombre)
+        {
+            Console.Clear();
+            Console.WriteLine("Ingrese el nombre de la canción y se mostraran sus acordes\n");
+            string nombreCancion = Console.ReadLine();//guarda la entrada
+            if (!string.IsNullOrWhiteSpace(nombreCancion))// verifica que se haya ingresado un valor
+            {
+                Cancion cancionBuscar = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));// busca coincidencias
+                Console.WriteLine("");
+                Console.WriteLine(string.Join(" | ", cancionBuscar.acorde));//muestra la cancion con sus acordes
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
+                Console.ResetColor();
+            }
+            else//si se ingreso un valor vacio se envia al usario al menu para volver a intentarlo
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"Valor ingresado invalido.\n");
+                Console.ResetColor();
+
+                Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
+
+            }
+            Console.ReadKey();
+            MenuAcordes(nombre, Canciones);
+
+        }
+        static void AgregarAcorde(List<Cancion> Canciones, string nombre)
+        {
+            Console.WriteLine("\nIngrese el nombre de la canción en la que esta el acorde\n");
+            string nombreCancion = Console.ReadLine();// guarda el valor ingresado en una variable
+            if (!string.IsNullOrWhiteSpace(nombreCancion))//  verifica que se haya ingresado un valor
+            {
+                Cancion agregarAcorde = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));//busca la cancion
+                Console.WriteLine(string.Join(" | ", agregarAcorde.acorde));
+                Console.WriteLine();
+                Console.WriteLine("\n¿Qué acorde desea agregar?\n");
+                string acorde = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(acorde))//  verifica que se haya ingresado un valor
+                {
+                    agregarAcorde.acorde.Add(acorde);//de ser asi se agrega el acorde
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\nEl acorde fue agregado con exitó.\n");
                     Console.ResetColor();
                     Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
                 }
-                else
+                else//si se ingreso un valor vacio se envia al usario al menu para volver a intentarlo
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"La canción '{nombreCancion}' no fue encontrada.\n");
+                    Console.Write($"Valor ingresado invalido.\n");
                     Console.ResetColor();
-
                     Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
-
                 }
-                Console.ReadKey();
-                MenuAcordes(nombre, Canciones, existeCancion);
             }
+            else//si se ingreso un valor vacio se envia al usario al menu para volver a intentarlo
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"Valor ingresado invalido.\n");
+                Console.ResetColor();
+
+                Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
+
+            }
+            Console.ReadKey();
+            MenuAcordes(nombre, Canciones);
         }
-        static void BorrarAcorde(List<Cancion> Canciones, string nombre, bool existeCancion)
+        static void BorrarAcorde(List<Cancion> Canciones, string nombre)
         {
-            if (existeCancion = false)
-            {
-                Console.WriteLine("No hay ninguna canción");
-                AgregarCancion(Canciones, nombre, existeCancion);
-            }
-            else
-            {
+            Console.WriteLine("\nIngrese el nombre de la canción en la que esta el acorde\n");
+            string nombreCancion = Console.ReadLine();//se guarda el valor ingresado en una variable
 
-                Console.WriteLine("\nIngrese el nombre de la canción en la que esta el acorde\n");
-                string nombreCancion = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(nombreCancion))//  verifica que se haya ingresado un valor
+            {
                 Cancion cancionBuscar = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));
-
-                if (nombreCancion != null)
+                Console.WriteLine(string.Join(" | ", cancionBuscar.acorde));
+                Console.WriteLine();
+                Console.WriteLine("¿Cuál acorde quiere borrar?\n");
+                string acordeBorrar = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(acordeBorrar))//  verifica que se haya ingresado un valor
                 {
-                    Console.WriteLine(string.Join(" | ", cancionBuscar.acorde));
-                    Console.WriteLine();
-                    Console.WriteLine("¿Cuál acorde quiere borrar?\n");
-                    string acordeBorrar = Console.ReadLine();
-
-                    if (cancionBuscar.acorde.Contains(acordeBorrar))
+                    if (cancionBuscar.acorde.Contains(acordeBorrar))//verifica qeu ese acorde se encuentre en la cancion
                     {
                         cancionBuscar.acorde.Remove(acordeBorrar);
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -1046,7 +1075,7 @@ namespace TrabajoIntegrador
                         Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
 
                     }
-                    else
+                    else//si el acorde no se encuentra en la cancion, se le notifica al usuario y lo envia al menu
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write($"\nEl acorde '{acordeBorrar}' no se encuentra en la canción '{cancionBuscar.nombre}'.\n");
@@ -1059,50 +1088,48 @@ namespace TrabajoIntegrador
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"\nLa canción '{nombreCancion}' no fue encontrada.\n");
+                    Console.Write($"\nValor ingresado invalido.\n");//no se ingreso un valor
                     Console.ResetColor();
 
                     Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
-
                 }
-                Console.ReadKey();
-                MenuAcordes(nombre, Canciones, existeCancion);
-            }
-        }
-        static void BorrarCancion(List<Cancion> Canciones, string nombre, bool existeCancion)
-        {
-            if (existeCancion = false)
-            {
-                Console.WriteLine("No hay ninguna canción");
-                AgregarCancion(Canciones, nombre, existeCancion);
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"\nValor ingresado invalido.\n");//no se ingreso un valor
+                Console.ResetColor();
 
-                Console.Clear();
-                Console.WriteLine("Ingrese el nombre de la canción que desee borrar.\n");
-
-                string nombreCancion = Console.ReadLine();
-                Cancion cancionBorrar = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));
-                if (nombreCancion != null)
-                {
-                    Canciones.Remove(cancionBorrar);
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("La canción fue eliminada con exitó.\n");
-                    Console.ResetColor();
-
-                    Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"La canción '{nombreCancion}' no fue encontrada.\n");
-                    Console.ResetColor();
-                    Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
-                }
-                Console.ReadKey();
-                MenuAcordes(nombre, Canciones, existeCancion);
+                Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
             }
+            Console.ReadKey();
+            MenuAcordes(nombre, Canciones);
+        }
+        static void BorrarCancion(List<Cancion> Canciones, string nombre)
+        {
+            Console.Clear();
+            Console.WriteLine("Ingrese el nombre de la canción que desee borrar.\n");
+            string nombreCancion = Console.ReadLine();//se guarda el nombre de la cancion en una variable
+
+            if (!string.IsNullOrWhiteSpace(nombreCancion))//  verifica que se haya ingresado un valor
+            {
+                Cancion cancionBorrar = Canciones.Find(a => a.nombre.Equals(nombreCancion, StringComparison.OrdinalIgnoreCase));//se busca la cancion
+                Canciones.Remove(cancionBorrar);//se elimina la cancion
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("La canción fue eliminada con exitó.\n");
+                Console.ResetColor();
+
+                Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"Valor ingresado invalido\n"); //no se ingreso un valor
+                Console.ResetColor();
+                Console.WriteLine("(Presione enter para volver al menú)\n\n\n");
+            }
+            Console.ReadKey();
+            MenuAcordes(nombre, Canciones);
         }
     }
 }
