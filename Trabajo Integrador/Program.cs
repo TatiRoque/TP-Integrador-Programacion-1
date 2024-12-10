@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace TrabajoIntegrador
 {
+    //declaración de estructura "Cancion"
     struct Cancion
     {
         public string nombre { get; set; }
@@ -30,11 +31,13 @@ namespace TrabajoIntegrador
             bool existeCancion = false;
             Menu(nombre, Canciones);
         }
+        //establece colores de la consola
         static void EstablecerColores()
         {
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.ForegroundColor = ConsoleColor.Yellow;
         }
+        //centra y muestra el msj inicial
         static void CentrarYMostrarMensaje()
         {
             int anchoConsola = Console.WindowWidth;
@@ -56,6 +59,7 @@ namespace TrabajoIntegrador
             Console.SetCursorPosition(posicionMensajeX, posicionMensajeY);
             Console.WriteLine(mensaje);
         }
+        //se llama a la función que dibuja el borde rojo del menú
         static void DibujarBorde(int ancho, int alto, int posX, int posY)
         {
             Console.SetCursorPosition(posX, posY);
@@ -109,7 +113,7 @@ namespace TrabajoIntegrador
         static void Menu(string nombre, List<Cancion> Canciones)
         {
             int opcion;
-            do // Bucle para seguir mostrando el menú hasta que se elija salir
+            do //bucle para seguir mostrando el menú hasta que se elija salir
             {
                 Console.Clear();
                 Console.Write("Bienvenido al menú ");
@@ -127,7 +131,7 @@ namespace TrabajoIntegrador
 
                 string input = Console.ReadLine();
 
-                // validar la entrada
+                //validar la entrada
                 bool isValidInput = int.TryParse(input, out opcion);
                 if (!isValidInput || opcion < 1 || opcion > 4)
                 {
@@ -153,17 +157,17 @@ namespace TrabajoIntegrador
                     case 4:
                         break;
                 }
-            } while (opcion != 4);
+            } while (opcion != 4);//para que si se registra 4 se finalice el programa
         }
 
 
-        static int calificacionExamen1 = -1; // -1 indica q el examen no fue realizado aun
+        static int calificacionExamen1 = -1; // inicialización y -1 indica q el examen no fue realizado aun
         static int calificacionExamen2 = -1;
         static int calificacionExamen3 = -1;
         static void TeoriaMusical(string nombre, List<Cancion> Canciones)
         {
             Console.Clear();
-
+            //menu de teoría musical
             Console.Clear();
             Console.WriteLine("Bienvenido al curso básico de teoría musical. Este consta de 3 módulos de aprendizaje y sus correspondientes exámenes orientados a comprobar el entendimiento de los contenidos dados. \n\n");
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -174,7 +178,7 @@ namespace TrabajoIntegrador
             Console.WriteLine("De la misma forma puede acceder a los exámenes.\n");
             Console.ResetColor();
             Console.WriteLine("4 – Examen Módulo I \n\n5 - Examen Módulo II \n\n6 - Examen Módulo III \n\n");
-
+            //comprobación de calificaciones (si = -1 -> no realizado y sino pone la nota obtenida)
             Console.WriteLine($"Calificación examen 1: {(calificacionExamen1 == -1 ? "no realizado" : calificacionExamen1.ToString())}");
             Console.WriteLine($"Calificación examen 2: {(calificacionExamen2 == -1 ? "no realizado" : calificacionExamen2.ToString())}");
             Console.WriteLine($"Calificación examen 3: {(calificacionExamen3 == -1 ? "no realizado" : calificacionExamen3.ToString())}");
@@ -187,10 +191,11 @@ namespace TrabajoIntegrador
                 Console.WriteLine("Entrada no válida. Intente nuevamente. (Presione enter para volver a intentar)");
                 Console.ResetColor();
                 Console.ReadKey();
-                TeoriaMusical(nombre, Canciones);
+                TeoriaMusical(nombre, Canciones);//lama nuevamente el menú de teoría
 
             }
 
+            //switch para llamar funciones 
             switch (opcion)
             {
                 case 1:
@@ -231,8 +236,8 @@ namespace TrabajoIntegrador
 
         static void mostrarModulo(int numeroModulo, string nombre, List<Cancion> Canciones)//muestra la teoria
         {
-            string[] paginas;
-
+            //opcion -> numeroModulo mediante parametros
+            string[] paginas;//se crea un arreglo donde almacenar y mostrar texto
             switch (numeroModulo)
             {
                 case 1:
@@ -325,7 +330,7 @@ namespace TrabajoIntegrador
         static void NavegarPaginas(int numeroModulo, string[] paginas, string nombre, List<Cancion> Canciones)
         {
             int paginaActual = 0;
-            bool enLectura = true;
+            bool enLectura = true;//bool para usar de argumento de cierre
 
             while (enLectura)
             {
@@ -343,20 +348,21 @@ namespace TrabajoIntegrador
 
                 switch (tecla)
                 {
+                    // si la pagina actual es menor a las paginas totales-1, se puede pasar
                     case ConsoleKey.RightArrow:
                         if (paginaActual < paginas.Length - 1)
                         {
                             paginaActual++;
                         }
                         break;
-
+                    //si la pagina actual es mayor a 0, se puede retroceder
                     case ConsoleKey.LeftArrow:
                         if (paginaActual > 0)
                         {
                             paginaActual--;
                         }
                         break;
-
+                    //con enter se sale de la lectura
                     case ConsoleKey.Enter:
                         enLectura = false;
                         TeoriaMusical(nombre, Canciones);
@@ -370,7 +376,7 @@ namespace TrabajoIntegrador
         {
             Console.Clear();
             int correctas = 0;
-
+            //se guardan las preguntas
             string[] preguntas =
             {
                 "1. Aristóteles definió la música como un arte imitativo de la realidad. (V/F)",
@@ -382,7 +388,8 @@ namespace TrabajoIntegrador
             for (int i = 0; i < preguntas.Length; i++)
             {
                 Console.Clear();
-                Console.Write("Eliga ");
+                //colores para verdadero y falso
+                Console.Write("Elija ");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("Verdadero (V)");
                 Console.ResetColor();
@@ -427,7 +434,7 @@ namespace TrabajoIntegrador
         {
             Console.Clear();
             int correctas = 0;
-
+            //se guardan las preguntas
             string[] preguntas =
             {
                 "1. La polifonía se refiere a varias líneas melódicas independientes. (V/F)",
@@ -440,10 +447,19 @@ namespace TrabajoIntegrador
             for (int i = 0; i < preguntas.Length; i++)
             {
                 Console.Clear();
+                //colores para verdadero y falso
+                Console.Write("Elija ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Verdadero (V)");
+                Console.ResetColor();
+                Console.Write(" o ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Falso (F)\n");
+                Console.ResetColor();
                 Console.WriteLine(preguntas[i]);
                 string respuesta;
 
-
+                // validar respuesta
                 while (true)
                 {
                     respuesta = Console.ReadLine().ToUpper();
@@ -454,7 +470,7 @@ namespace TrabajoIntegrador
                     Console.WriteLine("Respuesta no válida. Por favor ingrese 'V' o 'F'.");
                 }
 
-
+                // se registran respuestas correctas
                 if ((i == 0 && respuesta == "V") ||
                     (i == 1 && respuesta == "F") ||
                     (i == 2 && respuesta == "V") ||
@@ -464,7 +480,7 @@ namespace TrabajoIntegrador
                     correctas++;
                 }
             }
-
+            // calcular la calificación del 1 al 10
             calificacionExamen2 = (int)Math.Round((correctas / 5.0) * 10);
             Console.Clear();
             Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen2}/10. Presione una tecla para continuar...");
@@ -476,7 +492,7 @@ namespace TrabajoIntegrador
         {
             Console.Clear();
             int correctas = 0;
-
+            //se guardan las preguntas
             string[] preguntas =
             {
                 "1. La polifonía se refiere a varias líneas melódicas independientes. (V/F)",
@@ -489,10 +505,19 @@ namespace TrabajoIntegrador
             for (int i = 0; i < preguntas.Length; i++)
             {
                 Console.Clear();
+                //colores para verdadero y falso
+                Console.Write("Elija ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Verdadero (V)");
+                Console.ResetColor();
+                Console.Write(" o ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Falso (F)\n");
+                Console.ResetColor();
                 Console.WriteLine(preguntas[i]);
                 string respuesta;
 
-
+                // validar respuesta
                 while (true)
                 {
                     respuesta = Console.ReadLine().ToUpper();
@@ -503,7 +528,7 @@ namespace TrabajoIntegrador
                     Console.WriteLine("Respuesta no válida. Por favor ingrese 'V' o 'F'.");
                 }
 
-
+                // se registran respuestas correctas
                 if ((i == 0 && respuesta == "V") ||
                     (i == 1 && respuesta == "V") ||
                     (i == 2 && respuesta == "V") ||
@@ -513,7 +538,7 @@ namespace TrabajoIntegrador
                     correctas++;
                 }
             }
-
+            // calcular la calificación del 1 al 10
             calificacionExamen3 = (int)Math.Round((correctas / 5.0) * 10);
             Console.Clear();
             Console.WriteLine($"Examen completado. Su calificación es: {calificacionExamen3}/10. Presione una tecla para continuar...");
